@@ -182,7 +182,23 @@ public class DeviceResource {
             return Response.INTERNAL_ERROR();
         }
     }
-
+    @ApiOperation(
+            value= "Moroso",
+            notes= "Cambia el dispositivo del código indicado para que sea moroso"
+    )
+    @POST
+    @Path("/moroso/{number}")
+    public Response moroso(@PathParam("number") @ApiParam("Device number") String number) {
+        try {
+            Device device = this.deviceDAO.getDeviceByNumber(number);
+            device.setConfiguration(configurationDAO.getConfigurationByName("moroso"));
+            DeviceView deviceView = new DeviceView(device);
+            return Response.OK(deviceView);
+        } catch (Exception e) {
+            log.error("Cannot find device by number: " + number);
+            return Response.DEVICE_NOT_FOUND_ERROR();
+        }
+    }
     // =================================================================================================================
     @ApiOperation(
             value = "Create or update device",
