@@ -1,6 +1,6 @@
 <!-- Localization completed -->
-<nav class='navbar navbar-default navbar-fixed-top header'>
-    <div class='nav navbar-nav navbar-left logo-text'><a ng-click='mainPanel()'>{{appName}}</a></div>
+<nav class='navbar navbar-fixed-top header' style="background-color: #003764;">
+    <!-- <div class='nav navbar-nav navbar-left logo-text'><a ng-click='mainPanel()'>{{appName}}</a></div> -->
     <ul class='nav navbar-nav navbar-right'>
         <li ng-if="expiryWarning"><a id='headerExpiryWarning' class="expiry-warning" localized-change-tracking>account.expired.short</a></li>
         <li class='hide-on-small-screen'>
@@ -8,7 +8,7 @@
         </li>
         <li class='dropdown margin-right' uib-dropdown>
             <a class='dropdown-toggle' uib-dropdown-toggle role='button' aria-expanded='false'>
-<!--                <span class='hide-on-small-screen username-tip' localized-change-tracking>header.label.username</span> -->
+               <span class='hide-on-small-screen username-tip' localized-change-tracking>header.label.username</span>
                 <span class='username-label'>{{getUserName()}}</span>
                 <span class='caret username-caret'></span>
             </a>
