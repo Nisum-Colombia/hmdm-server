@@ -172,7 +172,7 @@
 }
 
 .content-wrapper {
-    padding: 70px 0px 0px 0px;
+    padding: 70px 0px 0px 7rem;
     height: 100%;
 }
 
@@ -219,7 +219,7 @@
 
 .fullscreen {
     height: 100%;
-    margin: 0px 20px;
+    margin: 0px 20px 0rem 8rem;
 }
 
 .administration {
