@@ -1527,7 +1527,7 @@ td.app-desc span {
 }
 
 .visible-groups-types-modal .modal-dialog {
-    width: 600px;
+    width: 750px;
 }
 
 .absolute-z-index {
@@ -2208,9 +2208,9 @@ td.deviceActions span.btn-group button.dropdown-toggle {
     padding-left: 6px;
 }
 
-tr:hover {
+/* tr:hover {
     background-color: #fafafa;
-}
+} */
 
 div.form-group div.photo-label {
     padding-right: 0;
