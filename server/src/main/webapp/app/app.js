@@ -415,7 +415,7 @@ angular.module('headwind-kiosk',
                                 $css.bind(style, $rootScope);
                             });
                         }
-                        
+
                         loader = function () {
                             console.log("Loading external library: ", libId, " ...");
 
@@ -423,7 +423,7 @@ angular.module('headwind-kiosk',
                                 var listenerRemove = $rootScope.$on('ocLazyLoad.fileLoaded', function (e, url) {
                                     if (library.files.indexOf(url) >= 0) {
                                         console.log('Loaded external library: ', url);
-                                        
+
                                         if (library.loadedFiles.indexOf(url) < 0) {
                                             library.loadedFiles.push(url);
                                         }
@@ -556,13 +556,4 @@ angular.module('headwind-kiosk',
                 return trans.router.stateService.target('main');
             }
         });
-
-        $scope.isSettingsTabActive = function() {
-            return ['DESIGN', 'COMMON', 'USERS', 'ROLES', 'GROUPS', 'LANG', 'HINTS', 'PLUGINS'].includes($scope.activeTab) || 
-                ($scope.settingsPlugins || []).some(p => $scope.activeTab === 'plugin-settings-' + p.identifier);
-        };
-
-        $scope.isPluginsTabActive = function() {
-            return ($scope.functionsPlugins || []).some(p => $scope.activeTab === 'plugin-' + p.identifier);
-        };
     });
