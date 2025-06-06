@@ -105,6 +105,7 @@ document.localization ['ar_AE'] = {
 	'button.more': '... المزيد',
     "button.cleanup": 'مسح',
     "button.add": 'إضافة',
+    "button.add.device": 'إضافة جهاز',
     "button.add.icon": 'أيقونة جديدة',
     "button.search": 'بحث',
     "button.export": 'تصدير',

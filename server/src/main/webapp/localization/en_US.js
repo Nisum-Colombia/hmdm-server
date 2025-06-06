@@ -105,6 +105,7 @@ document.localization ['en_US'] = {
     'button.more': 'More ...',
     'button.cleanup': 'Clear',
     'button.add': 'Add',
+    'button.add.device': 'Add device',
     'button.add.icon': 'New Icon',
     'button.search': 'Search',
     'button.export': 'Export',

@@ -12,12 +12,17 @@
     </sarsha-spinner>
 
     <form class="form-horizontal">
+    <div class='form-group'>
+        <div class='col-sm-12'>
+            <h3 localized>breadcrumb.devices</h3>
+        </div>
+    </div>
     <div class='form-group' ng-show='errorMessage'>
         <div class='error'><span>{{errorMessage}}</span></div>
     </div>
 
     <div class='form-group'>
-        <div class="col-sm-5 margin-bottom">
+        <div class="col-sm-5 margin-bottom"  ng-if="false">
             <select class='form-control'
                     ng-model='selection.groupId'
                     ng-change='initSearch()'
@@ -77,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-2  margin-bottom" style="margin-top: 5px">
+            <div class="col-sm-2  margin-bottom" style="margin-top: 5px" ng-if="false">
                 <input type="checkbox" id="addParamsImeiChanged"
                        ng-model='additionalParams.imeiChanged'> <span localized>form.devices.selection.imei.changed</span>
             </div>
@@ -90,7 +95,7 @@
                 </select>
             </div>
 
-            <div class="col-sm-3  text-right margin-bottom">
+            <div class="col-sm-3  text-right margin-bottom" ng-if="false">
                 <input type='text'
                        ng-enter='initSearch()'
                        ng-model='additionalParams.launcherVersion'
@@ -136,7 +141,7 @@
             </div>
             <div class='col-sm-2  margin-bottom' ng-if='additionalParams.onlineTimeSelect != 1'>&nbsp;</div>
 
-            <div class='col-sm-2  margin-bottom'>
+            <div class='col-sm-2  margin-bottom' ng-if="false">
                 <select class='form-control' id="mdmMode"
                         ng-model='additionalParams.mdmMode'>
                     <option value="" localized>form.settings.common.mdm.mode</option>
@@ -145,7 +150,7 @@
                 </select>
             </div>
 
-            <div class='col-sm-2  margin-bottom'>
+            <div class='col-sm-2  margin-bottom' ng-if="false">
                 <select class='form-control' id="kioskMode"
                         ng-model='additionalParams.kioskMode'>
                     <option value="" localized>form.settings.common.kiosk.mode</option>
@@ -154,7 +159,7 @@
                 </select>
             </div>
 
-            <div class='col-sm-3  margin-bottom'>
+            <div class='col-sm-3  margin-bottom' ng-if="false">
                 <input type='text'
                        ng-enter='initSearch()'
                        ng-model='additionalParams.androidVersion'
@@ -193,7 +198,7 @@
                     </div>
             <button type='button' ng-if="hasPermission('edit_devices')"
                     ng-disabled='commonSettings.deviceLimit > 0 && commonSettings.deviceCount >= commonSettings.deviceLimit'
-                    class='btn btn-primary' ng-click='editDevice( {} )' localized>button.add</button>
+                    class='btn btn-primary' ng-click='editDevice( {} )' localized>button.add.device</button>
         </div>
     </div>
 

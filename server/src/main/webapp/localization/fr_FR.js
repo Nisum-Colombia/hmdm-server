@@ -105,6 +105,7 @@ document.localization ['fr_FR'] = {
     'button.more': 'Plus ...',
     'button.cleanup': 'Effacer',
     'button.add': 'Ajouter',
+    'button.add.device': 'Ajouter un appareil',
     'button.add.icon': 'Nouvelle icône',
     'button.search': 'Rechercher',
     'button.export': 'Exporter',

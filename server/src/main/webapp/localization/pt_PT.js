@@ -105,6 +105,7 @@ document.localization ['pt_PT'] = {
     'button.more': 'Mais ...',
     'button.cleanup': 'Limpar',
     'button.add': 'Adicionar',
+    'button.add.device': 'Adicionar dispositivo',
     'button.add.icon': 'Novo ícone',
     'button.search': 'Buscar',
     'button.export': 'Exportar',

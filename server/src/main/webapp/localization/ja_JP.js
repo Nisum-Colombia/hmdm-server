@@ -105,6 +105,7 @@ document.localization ['ja_JP'] = {
     'button.more': '詳細...',
     'button.cleanup': 'クリア',
     'button.add': '追加',
+    'button.add.device': 'デバイスを追加',
     'button.add.icon': '新しいアイコン',
     'button.search': '検索',
     'button.export': 'エクスポート',

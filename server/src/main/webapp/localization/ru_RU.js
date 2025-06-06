@@ -105,6 +105,7 @@ document.localization[ 'ru_RU' ] = {
     'button.more': 'Ещё...',
     'button.cleanup': 'Очистить',
     'button.add': 'Добавить',
+    'button.add.device': 'Добавить устройство',
     'button.add.icon': 'Новая',
     'button.search': 'Поиск',
     'button.export': 'Экспорт',

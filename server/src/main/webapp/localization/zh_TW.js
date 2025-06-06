@@ -105,6 +105,7 @@ document.localization ['zh_TW'] = {
     'button.more' : "更多 ...",
     'button.cleanup' : "明確",
     'button.add' : "新增",
+    'button.add.device': '添加设备',
     'button.add.icon':"新圖示",
     'button.search' : "搜索",
     'button.export' : "出口",
