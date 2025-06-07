@@ -1074,5 +1074,13 @@ document.localization ['de_DE'] = {
     'permission.edit_files': 'Dateien verwalten',
 
     'yes': 'Ja',
-    'no': 'Nein'
+    'no': 'Nein',
+    "form.device.cedula": "Ausweisnummer",
+    "form.device.cedula.placeholder": "Zwischen 5 und 11 Ziffern",
+    "form.device.numeroCuotas": "Anzahl der Raten",
+    "form.device.cuotas.placeholder": "Zwischen 2 und 36",
+    "form.device.plazoFinanciacion": "Finanzierungslaufzeit",
+    "form.device.plazo.seleccione": "Laufzeit auswählen",
+    "form.device.plazo.quincenal": "Zweiwöchentlich",
+    "form.device.plazo.mensual": "Monatlich"
 };

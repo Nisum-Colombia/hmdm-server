@@ -1074,5 +1074,13 @@ document.localization[ 'ru_RU' ] = {
     'permission.edit_files': 'Управление файлами',
 
     'yes': 'да',
-    'no': 'нет'
+    'no': 'нет',
+    'form.device.cedula': 'Идентификационный номер',
+    'form.device.cedula.placeholder': 'От 5 до 11 цифр',
+    'form.device.numeroCuotas': 'Количество платежей',
+    'form.device.cuotas.placeholder': 'От 2 до 36',
+    'form.device.plazoFinanciacion': 'Срок финансирования',
+    'form.device.plazo.seleccione': 'Выберите срок',
+    'form.device.plazo.quincenal': 'Двухнедельный',
+    'form.device.plazo.mensual': 'Ежемесячный'
 };

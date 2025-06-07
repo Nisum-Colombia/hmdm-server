@@ -120,11 +120,11 @@
                     <span style="color: #aaa; font-size: 10px" localized>form.device.number.hint</span></label>
                 <div class='col-sm-8'>
                     <input ng-model='device.number' type='text' class='form-control' ng-disabled="!canEditDevice || migratingDevice" title="{{migrationHint}}"
-                           focus-me>
+                           focus-me readonly>
                 </div>
             </div>
 
-            <div class='form-group' ng-if="canEditDevice">
+            <div class='form-group' ng-if="canEditDevice && showConfigDropdown">
                 <label class='col-sm-4 control-label' localized>form.device.config</label>
                 <div class='col-sm-8'>
                     <select class='form-control'
@@ -166,6 +166,28 @@
         <!-- Columna Derecha -->
         <div class="col-sm-6">
             <div class='form-group'>
+                <label class='col-sm-4 control-label' localized>form.device.cedula</label>
+                <div class='col-sm-8'>
+                    <input type='text' class='form-control' ng-model='device.cedula' ng-pattern="/^\d{5,11}$/" ng-required="true" placeholder="{{'form.device.cedula.placeholder' | localize}}">
+                </div>
+            </div>
+            <div class='form-group'>
+                <label class='col-sm-4 control-label' localized>form.device.numeroCuotas</label>
+                <div class='col-sm-8'>
+                    <input type='number' class='form-control' ng-model='device.numeroCuotas' min="2" max="36" ng-required="true" placeholder="{{'form.device.cuotas.placeholder' | localize}}">
+                </div>
+            </div>
+            <div class='form-group'>
+                <label class='col-sm-4 control-label' localized>form.device.plazoFinanciacion</label>
+                <div class='col-sm-8'>
+                    <select class='form-control' ng-model='device.plazoFinanciacion' ng-required="true">
+                        <option value="" disabled selected localized>form.device.plazo.seleccione</option>
+                        <option value="15" localized>form.device.plazo.quincenal</option>
+                        <option value="30" localized>form.device.plazo.mensual</option>
+                    </select>
+                </div>
+            </div>
+            <div class='form-group'>
                 <label class='col-sm-4 control-label' localized>form.device.desc</label>
                 <div class='col-sm-8'>
                     <textarea ng-model='device.description' class='form-control no-resize' rows="5"></textarea>
@@ -202,15 +224,9 @@
             </div>
         </div>
     </div>
-    </div>
-        <div class='form-group'>
-        <div class='col-sm-offset-4 col-sm-8'>
-            <button type='button' class='btn btn-outline-primary' ng-click='closeModal()' 
-                    localized>Volver</button>
-            <button type='submit' class='btn btn-primary' ng-click='save()'ng-disabled="loading"
-                    ng-disabled="loading"
-                    localized>continuar</button>
-        </div>
+    <div class='modal-footer'>
+        <button type='button' class='btn btn-outline-primary' ng-click='closeModal()' localized>Volver</button>
+        <button type='submit' class='btn btn-primary' ng-click='save()' ng-disabled="loading" localized>Continuar</button>
     </div>
 </form>
 </div>

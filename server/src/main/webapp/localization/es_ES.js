@@ -1074,5 +1074,13 @@ document.localization ['es_ES'] = {
     'permission.edit_files': 'Administrar archivos',
 
     'yes': 'si',
-    'no': 'no'
+    'no': 'no',
+    "form.device.cedula": "Cédula",
+    "form.device.cedula.placeholder": "Entre 5 y 11 dígitos",
+    "form.device.numeroCuotas": "Número de cuotas",
+    "form.device.cuotas.placeholder": "Entre 2 y 36",
+    "form.device.plazoFinanciacion": "Plazo de financiación",
+    "form.device.plazo.seleccione": "Seleccione un plazo",
+    "form.device.plazo.quincenal": "Quincenal",
+    "form.device.plazo.mensual": "Mensual"
 };

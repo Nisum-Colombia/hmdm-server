@@ -1007,6 +1007,19 @@ angular.module('headwind-kiosk')
             $scope.configurations = response.data;
         });
 
+            $scope.$watchGroup(['device.imei', 'device.cedula', 'device.plazoFinanciacion'], function(newValues, oldValues, scope) {
+                var imei = newValues[0] || '';
+                var cedula = newValues[1] || '';
+                var plazo = newValues[2] || '';
+
+                if (imei && cedula && plazo) {
+                    scope.device.numeroCalculado = imei + '-' + cedula + '-' + plazo;
+                } else {
+                    // Optionally clear or set to a default if parts are missing
+                    // scope.device.numeroCalculado = '';
+                }
+            });
+
         $scope.save = function () {
             var ids = [];
             for (var i = 0; i < devices.length; i++) {
@@ -1060,9 +1073,11 @@ angular.module('headwind-kiosk')
         }
     })
     .controller('DeviceModalController',
-        function ($scope, $modalInstance, deviceService, configurationService, groupService, device, settings,
+        ['$scope', '$modalInstance', 'deviceService', 'configurationService', 'groupService', 'device', 'settings',
+                  'localization', 'authService', 'confirmModal', function ($scope, $modalInstance, deviceService, configurationService, groupService, device, settings,
                   localization, authService, confirmModal) {
 
+            $scope.showConfigDropdown = true;
             $scope.canEditDevice = authService.hasPermission('edit_devices');
 
             $scope.migratingDevice = device.hasOwnProperty('oldNumber') && device.oldNumber !== null;
@@ -1098,9 +1113,25 @@ angular.module('headwind-kiosk')
                 }
             }
 
+            $scope.device.cedula = $scope.device.cedula || '';
+            $scope.device.numeroCuotas = $scope.device.numeroCuotas || null;
+            $scope.device.plazoFinanciacion = $scope.device.plazoFinanciacion || '';
+
             $scope.settings = settings;
 
             $scope.loading = false;
+
+            $scope.$watchGroup(['device.imei', 'device.cedula', 'device.plazoFinanciacion'], function(newValues, oldValues, scope) {
+                var imei = newValues[0] || '';
+                var cedula = newValues[1] || '';
+                var plazo = newValues[2] || '';
+
+                if (imei && cedula && plazo) {
+                    scope.device.number = imei + '-' + cedula + '-' + plazo;
+                } else {
+                    scope.device.number = '';
+                }
+            });
 
             var saveCompletion = function(targetService, pathParams, request) {
                 targetService(pathParams, request, function (response) {
@@ -1173,12 +1204,33 @@ angular.module('headwind-kiosk')
 
             configurationService.getAllConfigNames(function (response) {
                 $scope.configurations = response.data;
+                var aldiaConfig = $scope.configurations.find(function(config) {
+                    return config.name && config.name.toLowerCase() === 'aldia';
+                });
+
+                if (aldiaConfig) {
+                    $scope.device.configurationId = aldiaConfig.id;
+                    $scope.showConfigDropdown = false;
+                } else {
+                    $scope.showConfigDropdown = true;
+                    // If device.configurationId is not set and aldia is not found,
+                    // and there are other configurations, you might want to default to the first available one
+                    // or leave it for the user to select if the dropdown is shown.
+                    // For now, if aldia is not found, the dropdown will show.
+                    // If $scope.device.configurationId is already set (e.g. editing existing device), don't clear it.
+                    if (!$scope.device.configurationId && $scope.configurations.length > 0 && !$scope.showConfigDropdown) {
+                         // This case should not happen if aldiaConfig sets it.
+                    } else if (!$scope.device.configurationId && $scope.configurations.length > 0 && $scope.showConfigDropdown) {
+                        // Optionally set a default if none is selected yet for a new device
+                        // $scope.device.configurationId = $scope.configurations[0].id;
+                    }
+                }
             });
 
             groupService.getAllGroups(function (response) {
                 $scope.groups = response.data;
             });
-        })
+        }])
     .controller('DeviceApplicationSettingsModalController', function ($scope, $modal, $modalInstance,
                                                                       localization, deviceService,
                                                                       applicationService, alertService,

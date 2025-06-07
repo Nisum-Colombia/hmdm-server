@@ -1074,5 +1074,13 @@ document.localization ['zh_TW'] = {
     'permission.edit_files': '管理檔案',
 
     'yes' : 'yes',
-    'no' : 'No'
+    'no' : 'No',
+    'form.device.cedula': '身份證號碼',
+    'form.device.cedula.placeholder': '5至11位數字',
+    'form.device.numeroCuotas': '分期付款次數',
+    'form.device.cuotas.placeholder': '2至36次',
+    'form.device.plazoFinanciacion': '融資期限',
+    'form.device.plazo.seleccione': '選擇期限',
+    'form.device.plazo.quincenal': '每半月',
+    'form.device.plazo.mensual': '每月'
 };		

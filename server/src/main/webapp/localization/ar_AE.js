@@ -1074,5 +1074,13 @@ document.localization ['ar_AE'] = {
     'permission.edit_files': 'إدارة الملفات',
 
     'yes':' نعم',
-    'no': 'لا'
+    'no': 'لا',
+    'form.device.cedula': 'رقم الهوية',
+    'form.device.cedula.placeholder': 'بين 5 و 11 رقمًا',
+    'form.device.numeroCuotas': 'عدد الأقساط',
+    'form.device.cuotas.placeholder': 'بين 2 و 36',
+    'form.device.plazoFinanciacion': 'مدة التمويل',
+    'form.device.plazo.seleccione': 'اختر مدة',
+    'form.device.plazo.quincenal': 'نصف شهري',
+    'form.device.plazo.mensual': 'شهري'
 };
