@@ -1082,5 +1082,7 @@ document.localization ['es_ES'] = {
     "form.device.plazoFinanciacion": "Plazo de financiación",
     "form.device.plazo.seleccione": "Seleccione un plazo",
     "form.device.plazo.quincenal": "Quincenal",
-    "form.device.plazo.mensual": "Mensual"
+    "form.device.plazo.mensual": "Mensual",
+    "form.device.back": "Volver",
+    "form.device.next": "Continuar"
 };

@@ -6,12 +6,15 @@
     <h3 style="text-align: center; margin-bottom: 20px; color: #003764; font-weight: 600;">Enrolar dispositivo</h3>
 
     <div style="display: flex; justify-content: space-around; margin-bottom: 30px;">
-        <div style="width: 30px; height: 30px; border-radius: 50%; background-color: #003764; color: white; display: flex; align-items: center; justify-content: center; margin: 0 10px;">1</div>
-        <div style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">2</div>
-        <div style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">3</div>
+        <div ng-if="currentStep === 1"  style="width: 30px; height: 30px; border-radius: 50%; background-color: #003764; color: white; display: flex; align-items: center; justify-content: center; margin: 0 10px;">1</div>
+        <div ng-if="currentStep !== 1"  style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">1</div>
+        <div ng-if="currentStep === 2"  style="width: 30px; height: 30px; border-radius: 50%; background-color: #003764; color: white; display: flex; align-items: center; justify-content: center; margin: 0 10px;">2</div>
+        <div ng-if="currentStep !== 2"  style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">2</div>
+        <div ng-if="currentStep === 3"  style="width: 30px; height: 30px; border-radius: 50%; background-color: #003764; color: white; display: flex; align-items: center; justify-content: center; margin: 0 10px;">3</div>
+        <div ng-if="currentStep !== 3"  style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">3</div>
     </div>
 
-    <p style="color: #003764; font-weight: 600;">Paso 1</p>
+    <p style="color: #003764; font-weight: 600;">Paso {{currentStep}}</p>
     <p>Completa los datos para completar el enrolamiento.</p>
     
     <!-- <form class='form-horizontal'>
@@ -112,7 +115,7 @@
     </form> -->
 
     <form class='form-horizontal'>
-    <div class="row">
+    <div class="row" ng-if="currentStep === 1">
         <!-- Columna Izquierda -->
         <div class="col-sm-6">
             <div class='form-group' ng-if="settings.customPropertyName1">
@@ -162,10 +165,10 @@
                            ui-mask="{{'999999999999999'}}" ui-options="{clearOnBlur: false, allowInvalidValue: true}"/>
                 </div>
             </div>
-            <div class='form-group'>
+            <div class='form-group' ng-if="canEditDevice && settings.customPropertyName2">
                 <label class='col-sm-4 control-label' localized>form.device.numeroCuotas</label>
                 <div class='col-sm-8'>
-                    <input type='number' class='form-control' ng-model='device.numeroCuotas' min="2" max="36" ng-required="true" placeholder="{{'form.device.cuotas.placeholder' | localize}}">
+                    <input type='number' class='form-control' ng-model='device.custom2' min="2" max="36" ng-required="true" placeholder="{{'form.device.cuotas.placeholder' | localize}}">
                 </div>
             </div>
             
@@ -194,21 +197,18 @@
                            ui-mask="{{settings.phoneNumberFormat}}" ui-options="{clearOnBlur: false, allowInvalidValue: true}">
                 </div>
             </div>
-
-            <div class='form-group' ng-if="canEditDevice && settings.customPropertyName2">
-                <label class='col-sm-4 control-label' for="custom2">{{settings.customPropertyName2}}</label>
-                <div class='col-sm-8'>
-                    <input ng-model='device.custom2' id="custom2" type='text' class='form-control'
-                           ui-options="{clearOnBlur: false, allowInvalidValue: true}" ng-if="!settings.customMultiline2">
-                    <textarea ng-model='device.custom2' id="custom2t" type='text' class='form-control' rows="5"
-                              ui-options="{clearOnBlur: false, allowInvalidValue: true}" ng-if="settings.customMultiline2"></textarea>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="currentStep === 2">
+        <div class="col-sm-12">            
+            <p>Confirma los datos ingresados y haz clic en "Siguiente" para continuar.</p>
         </div>
     </div>
     <div class='modal-footer'>
-        <button type='button' class='btn btn-outline-primary' ng-click='closeModal()' localized>Volver</button>
-        <button type='submit' class='btn btn-primary' ng-click='save()' ng-disabled="loading" localized>Continuar</button>
+        <button type='button' class='btn btn-outline-primary' ng-click='back()' localized>form.device.back</button>
+        <button type='button' class='btn btn-outline-secondary' ng-click='next()' ng-if="currentStep &lt; 3" localized>form.device.next</button>
+        <button type='submit' class='btn btn-primary' ng-click='save()' ng-disabled="loading" localized>button.save</button>
+
     </div>
 </form>
 </div>

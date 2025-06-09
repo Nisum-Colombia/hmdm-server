@@ -1013,7 +1013,7 @@ angular.module('headwind-kiosk')
                 var plazo = newValues[2] || '';
 
                 if (imei && cedula && plazo) {
-                    scope.device.numeroCalculado = imei + '-' + cedula + '-' + plazo;
+                    scope.device.number = imei + '-' + cedula + '-' + plazo;
                 } else {
                     // Optionally clear or set to a default if parts are missing
                     // scope.device.numeroCalculado = '';
@@ -1078,6 +1078,7 @@ angular.module('headwind-kiosk')
                   localization, authService, confirmModal) {
 
             $scope.showConfigDropdown = true;
+            $scope.currentStep = 1;
             $scope.canEditDevice = authService.hasPermission('edit_devices');
 
             $scope.migratingDevice = device.hasOwnProperty('oldNumber') && device.oldNumber !== null;
@@ -1201,16 +1202,24 @@ angular.module('headwind-kiosk')
             $scope.closeModal = function () {
                 $modalInstance.dismiss();
             };
+            $scope.back = function () {
+                if($scope.currentStep==1) {
+                    $modalInstance.dismiss();
+                } else {
+                    $scope.currentStep --;
+                }
+            }
+            $scope.next = function () { 
+                if($scope.currentStep<3)
+                    $scope.currentStep ++;
 
-            configurationService.getAllConfigNames(function (response) {
-                console.log("Configuration names loaded: ", response);
+            }
+            configurationService.getAllConfigNames(function (response) {                
                 $scope.configurations = response.data;
                 var aldiaConfig = $scope.configurations.find(function(config) {
                     return config.name && config.name.toLowerCase() === 'aldia';
-                });
-                console.log("Aldia configuration found: ", aldiaConfig);
-                if (aldiaConfig) {
-                    console.log("Device configuration ID: ", $scope.device.configurationId);
+                });                
+                if (aldiaConfig) {                    
                     if (!$scope.device.configurationId) { // Only default if no config is already set
                         $scope.device.configurationId = aldiaConfig.id;
                     }
@@ -1451,6 +1460,7 @@ angular.module('headwind-kiosk')
                     console.error("Failed to load the list of applications: ", localization.localize(response.message));
                 }
             });
+            
         };
 
         loadData();
