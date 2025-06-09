@@ -1113,23 +1113,23 @@ angular.module('headwind-kiosk')
                 }
             }
 
-            $scope.device.cedula = $scope.device.cedula || '';
-            $scope.device.numeroCuotas = $scope.device.numeroCuotas || null;
-            $scope.device.plazoFinanciacion = $scope.device.plazoFinanciacion || '';
+            $scope.device.custom1 = $scope.device.custom1 || ''; // For Cédula
+            $scope.device.custom2 = $scope.device.custom2 || null; // For Número de cuotas
+            $scope.device.custom3 = $scope.device.custom3 || ''; // For Plazo de financiación
 
             $scope.settings = settings;
 
             $scope.loading = false;
 
-            $scope.$watchGroup(['device.imei', 'device.cedula', 'device.plazoFinanciacion'], function(newValues, oldValues, scope) {
+            $scope.$watchGroup(['device.imei', 'device.custom1', 'device.custom3'], function(newValues, oldValues, scope) {
                 var imei = newValues[0] || '';
-                var cedula = newValues[1] || '';
-                var plazo = newValues[2] || '';
+                var cedula = newValues[1] || ''; // This is device.custom1
+                var plazo = newValues[2] || '';   // This is device.custom3
 
                 if (imei && cedula && plazo) {
                     scope.device.number = imei + '-' + cedula + '-' + plazo;
                 } else {
-                    scope.device.number = '';
+                    scope.device.number = ''; // Or handle as appropriate
                 }
             });
 
@@ -1209,21 +1209,19 @@ angular.module('headwind-kiosk')
                 });
 
                 if (aldiaConfig) {
-                    $scope.device.configurationId = aldiaConfig.id;
-                    $scope.showConfigDropdown = false;
-                } else {
-                    $scope.showConfigDropdown = true;
-                    // If device.configurationId is not set and aldia is not found,
-                    // and there are other configurations, you might want to default to the first available one
-                    // or leave it for the user to select if the dropdown is shown.
-                    // For now, if aldia is not found, the dropdown will show.
-                    // If $scope.device.configurationId is already set (e.g. editing existing device), don't clear it.
-                    if (!$scope.device.configurationId && $scope.configurations.length > 0 && !$scope.showConfigDropdown) {
-                         // This case should not happen if aldiaConfig sets it.
-                    } else if (!$scope.device.configurationId && $scope.configurations.length > 0 && $scope.showConfigDropdown) {
-                        // Optionally set a default if none is selected yet for a new device
-                        // $scope.device.configurationId = $scope.configurations[0].id;
+                    if (!$scope.device.configurationId) { // Only default if no config is already set
+                        $scope.device.configurationId = aldiaConfig.id;
                     }
+                    // If current device config is aldia, or if we just defaulted a new device to aldia
+                    if ($scope.device.configurationId === aldiaConfig.id) {
+                         $scope.showConfigDropdown = false;
+                    } else {
+                        // Device has a different configuration, so we should show the dropdown to allow changes
+                        $scope.showConfigDropdown = true;
+                    }
+                } else {
+                    // Aldia config not found, always show dropdown
+                    $scope.showConfigDropdown = true;
                 }
             });
 
