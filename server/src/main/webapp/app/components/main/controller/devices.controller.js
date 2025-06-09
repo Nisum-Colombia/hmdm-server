@@ -1203,12 +1203,14 @@ angular.module('headwind-kiosk')
             };
 
             configurationService.getAllConfigNames(function (response) {
+                console.log("Configuration names loaded: ", response);
                 $scope.configurations = response.data;
                 var aldiaConfig = $scope.configurations.find(function(config) {
                     return config.name && config.name.toLowerCase() === 'aldia';
                 });
-
+                console.log("Aldia configuration found: ", aldiaConfig);
                 if (aldiaConfig) {
+                    console.log("Device configuration ID: ", $scope.device.configurationId);
                     if (!$scope.device.configurationId) { // Only default if no config is already set
                         $scope.device.configurationId = aldiaConfig.id;
                     }
