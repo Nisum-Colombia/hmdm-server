@@ -1084,5 +1084,11 @@ document.localization ['es_ES'] = {
     "form.device.plazo.quincenal": "Quincenal",
     "form.device.plazo.mensual": "Mensual",
     "form.device.back": "Volver",
-    "form.device.next": "Continuar"
+    "form.device.next": "Continuar",
+    "form.device.currentStep": "Paso",
+    'form.device.noqr': 'No existe un código QR para este dispositivo. Revise la configuración asociada',
+    'form.device.lock': 'Bloquear',
+    'form.device.unlock': 'Desbloquear',
+    'form.device.step1': 'Completa los datos para continuar el proceso.',
+    'form.device.step3': 'Bloquea o desbloquea el dispositivo, según sea necesario.'
 };

@@ -14,8 +14,8 @@
         <div ng-if="currentStep !== 3"  style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">3</div>
     </div>
 
-    <p style="color: #003764; font-weight: 600;">Paso {{currentStep}}</p>
-    <p>Completa los datos para completar el enrolamiento.</p>
+    <p style="color: #003764; font-weight: 600;"><span localized>form.device.currentStep</span> {{currentStep}}</p>
+    <p localized>form.device.step1</p>
     
     <!-- <form class='form-horizontal'>
 
@@ -168,7 +168,7 @@
             <div class='form-group' ng-if="canEditDevice && settings.customPropertyName2">
                 <label class='col-sm-4 control-label' localized>form.device.numeroCuotas</label>
                 <div class='col-sm-8'>
-                    <input type='number' class='form-control' ng-model='device.custom2' min="2" max="36" ng-required="true" placeholder="{{'form.device.cuotas.placeholder' | localize}}">
+                    <input type='text' class='form-control' ng-model-options="{number: true}" ng-model='device.custom2' min="2" max="36" ng-required="true" placeholder="{{'form.device.cuotas.placeholder' | localize}}">
                 </div>
             </div>
             
@@ -200,8 +200,18 @@
         </div>
     </div>
     <div class="row" ng-if="currentStep === 2">
-        <div class="col-sm-12">            
-            <p>Confirma los datos ingresados y haz clic en "Siguiente" para continuar.</p>
+        <div class="col-sm-12" ng-if="!device.qrCodeKey" localized> 
+            form.device.noqr
+        </div>
+        <div class="col-sm-12" ng-if="device.qrCodeKey">
+             <img ng-src="{{qrCodeUrl}}" width="480" height="480" localized-alt="form.qr.code.image.alt"/>         
+        </div>
+    </div>
+    <div class="row" ng-if="currentStep === 3">
+        <div class="col-sm-12" localized>form.device.step3</div>    
+        <div class="col-sm-12">
+            <button type='button' class='btn btn-outline-secondary' ng-click='lock()' localized>form.device.lock</button>
+            <button type='button' class='btn btn-outline-secondary' ng-click='unlock()' localized>form.device.unlock</button>     
         </div>
     </div>
     <div class='modal-footer'>
