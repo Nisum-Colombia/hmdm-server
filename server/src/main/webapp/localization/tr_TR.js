@@ -1088,5 +1088,21 @@ document.localization ['tr_TR'] = {
 	'permission.edit_files': 'Dosyaları yönet',
 
 	'yes': 'yes',
-	'no': 'no'
+	'no': 'no',
+    'form.device.cedula': 'Kimlik Numarası',
+    'form.device.cedula.placeholder': '5 ile 11 hane arası',
+    'form.device.numeroCuotas': 'Taksit Sayısı',
+    'form.device.cuotas.placeholder': '2 ile 36 arası',
+    'form.device.plazoFinanciacion': 'Finansman Vadesi',
+    'form.device.plazo.seleccione': 'Bir vade seçin',
+    'form.device.plazo.quincenal': '15 Günlük',
+    'form.device.plazo.mensual': 'Aylık',
+	"form.device.back": "Geri",
+	"form.device.next": "Devam et",
+	"form.device.currentStep": "Adım",
+	"form.device.noqr": "Bu cihaz için bir QR kodu yok. İlişkili yapılandırmayı kontrol edin",
+	"form.device.lock": "Kilitle",
+	"form.device.unlock": "Kilidi aç",
+	"form.device.step1": "Devam etmek için verileri tamamlayın.",
+	"form.device.step3": "Gerektiğinde cihazı kilitleyin veya kilidini açın."
 };

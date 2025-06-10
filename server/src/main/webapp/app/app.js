@@ -415,7 +415,7 @@ angular.module('headwind-kiosk',
                                 $css.bind(style, $rootScope);
                             });
                         }
-                        
+
                         loader = function () {
                             console.log("Loading external library: ", libId, " ...");
 
@@ -423,7 +423,7 @@ angular.module('headwind-kiosk',
                                 var listenerRemove = $rootScope.$on('ocLazyLoad.fileLoaded', function (e, url) {
                                     if (library.files.indexOf(url) >= 0) {
                                         console.log('Loaded external library: ', url);
-                                        
+
                                         if (library.loadedFiles.indexOf(url) < 0) {
                                             library.loadedFiles.push(url);
                                         }

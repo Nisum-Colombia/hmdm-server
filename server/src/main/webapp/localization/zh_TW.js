@@ -1074,5 +1074,21 @@ document.localization ['zh_TW'] = {
     'permission.edit_files': '管理檔案',
 
     'yes' : 'yes',
-    'no' : 'No'
+    'no' : 'No',
+    'form.device.cedula': '身份證號碼',
+    'form.device.cedula.placeholder': '5至11位數字',
+    'form.device.numeroCuotas': '分期付款次數',
+    'form.device.cuotas.placeholder': '2至36次',
+    'form.device.plazoFinanciacion': '融資期限',
+    'form.device.plazo.seleccione': '選擇期限',
+    'form.device.plazo.quincenal': '每半月',
+    'form.device.plazo.mensual': '每月',
+    "form.device.back": "返回",
+    "form.device.next": "繼續",
+    "form.device.currentStep": "步驟",
+    "form.device.noqr": "此裝置沒有 QR 碼。請檢查相關設定",
+    "form.device.lock": "鎖定",
+    "form.device.unlock": "解鎖",
+    "form.device.step1": "請填寫資料以繼續流程。",
+    "form.device.step3": "根據需要鎖定或解鎖裝置。"
 };		

@@ -1074,5 +1074,21 @@ document.localization ['zh_CN'] = {
     'permission.edit_files': '管理文件',
 
     'yes' : 'yes',
-    'no' : 'No'
+    'no' : 'No',
+    'form.device.cedula': '身份证号码',
+    'form.device.cedula.placeholder': '5至11位数字',
+    'form.device.numeroCuotas': '分期付款次数',
+    'form.device.cuotas.placeholder': '2至36次',
+    'form.device.plazoFinanciacion': '融资期限',
+    'form.device.plazo.seleccione': '选择期限',
+    'form.device.plazo.quincenal': '每半月',
+    'form.device.plazo.mensual': '每月',
+    "form.device.back": "返回",
+    "form.device.next": "继续",
+    "form.device.currentStep": "步骤",
+    "form.device.noqr": "此设备没有二维码。请检查相关配置",
+    "form.device.lock": "锁定",
+    "form.device.unlock": "解锁",
+    "form.device.step1": "填写数据以继续流程。",
+    "form.device.step3": "根据需要锁定或解锁设备。",
 };		

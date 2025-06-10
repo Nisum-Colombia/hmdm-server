@@ -182,7 +182,40 @@ public class DeviceResource {
             return Response.INTERNAL_ERROR();
         }
     }
+    @ApiOperation(
+            value= "Moroso",
+            notes= "Cambia el dispositivo del código indicado para que sea moroso. La configuración llamada 'moroso' debe existir en el sistema"
+    )
+    @POST
+    @Path("/moroso/{number}")
+    public Response moroso(@PathParam("number") @ApiParam("Device number") String number) {
+        return setConfigurationFor(number, "moroso");
+    }
 
+    @ApiOperation(
+            value= "AlDia",
+            notes= "Cambia el dispositivo del código indicado para que este al día. La configuración llamada 'aldia' debe existir en el sistema"
+    )
+    @POST
+    @Path("/aldia/{number}")
+    public Response aldia(@PathParam("number") @ApiParam("Device number") String number) {
+        return setConfigurationFor(number, "aldia");
+    }
+    private Response setConfigurationFor(String number, String configuration) {
+        try {
+            Device device = this.deviceDAO.getDeviceByNumber(number);
+            Configuration morosoConfig = configurationDAO.getConfigurationByName(configuration);
+            if (morosoConfig == null) {
+                return Response.OBJECT_NOT_FOUND_ERROR();
+            }
+            device.setConfiguration(morosoConfig);
+            DeviceView deviceView = new DeviceView(device);
+            return Response.OK(deviceView);
+        } catch (Exception e) {
+            log.error("Cannot find device by number: " + number);
+            return Response.DEVICE_NOT_FOUND_ERROR();
+        }
+    }
     // =================================================================================================================
     @ApiOperation(
             value = "Create or update device",

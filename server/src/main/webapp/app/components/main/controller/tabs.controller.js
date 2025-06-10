@@ -1,6 +1,7 @@
 // Localization completed
 angular.module('headwind-kiosk')
-    .controller('TabController', function ($scope, $rootScope, $timeout, userService, authService, openTab, $state,
+    .controller('TabController', ['$scope', '$rootScope', '$timeout', 'userService', 'authService', 'openTab', '$state',
+                                           'pluginService', 'localization', 'hintService', function ($scope, $rootScope, $timeout, userService, authService, openTab, $state,
                                            pluginService, localization, hintService) {
 
         $scope.localization = localization;
@@ -65,6 +66,21 @@ angular.module('headwind-kiosk')
         $scope.functionsPlugins = [];
         $scope.settingsPlugins = [];
 
+        $scope.isSettingsTabActive = function() {
+            // Ensure $scope.activeTab, $scope.settingsPlugins are available
+            // It's assumed settingsPlugins might be fetched or initialized elsewhere in this controller or a service
+            // and made available on $scope.
+            return ['DESIGN', 'COMMON', 'USERS', 'ROLES', 'GROUPS', 'LANG', 'HINTS', 'PLUGINS'].includes($scope.activeTab) ||
+                ($scope.settingsPlugins || []).some(p => $scope.activeTab === 'plugin-settings-' + p.identifier);
+        };
+
+        $scope.isPluginsTabActive = function() {
+            // Ensure $scope.activeTab, $scope.functionsPlugins are available
+            // It's assumed functionsPlugins might be fetched or initialized elsewhere in this controller or a service
+            // and made available on $scope.
+            return ($scope.functionsPlugins || []).some(p => $scope.activeTab === 'plugin-' + p.identifier);
+        };
+
         $scope.openTab = function (tabName) {
             if (tabName === $scope.activeTab) {
                 return;
@@ -89,4 +105,4 @@ angular.module('headwind-kiosk')
 //        }, 100);
 
         loadData();
-    });
+}]);

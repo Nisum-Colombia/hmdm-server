@@ -1074,5 +1074,21 @@ document.localization ['de_DE'] = {
     'permission.edit_files': 'Dateien verwalten',
 
     'yes': 'Ja',
-    'no': 'Nein'
+    'no': 'Nein',
+    "form.device.cedula": "Ausweisnummer",
+    "form.device.cedula.placeholder": "Zwischen 5 und 11 Ziffern",
+    "form.device.numeroCuotas": "Anzahl der Raten",
+    "form.device.cuotas.placeholder": "Zwischen 2 und 36",
+    "form.device.plazoFinanciacion": "Finanzierungslaufzeit",
+    "form.device.plazo.seleccione": "Laufzeit auswählen",
+    "form.device.plazo.quincenal": "Zweiwöchentlich",
+    "form.device.plazo.mensual": "Monatlich",
+    "form.device.back": "Zurück",
+    "form.device.next": "Weiter",
+    "form.device.currentStep": "Schritt",
+    "form.device.noqr": "Kein QR-Code für dieses Gerät vorhanden. Überprüfen Sie die zugehörige Konfiguration",
+    "form.device.lock": "Sperren",
+    "form.device.unlock": "Entsperren",
+    "form.device.step1": "Vervollständigen Sie die Daten, um fortzufahren.",
+    "form.device.step3": "Sperren oder entsperren Sie das Gerät nach Bedarf."
 };

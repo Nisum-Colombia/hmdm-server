@@ -1,14 +1,72 @@
-<div class="login-logo" ng-if="rebranding"><img src="rest/public/logo"><span class="logo">{{rebranding.appName}}</span></div>
+<header>
+    <link rel="stylesheet" href="../../../../css/login.css">
+</header>
+<div class="conteiner-login">
+    <div class="top-bar"></div>
+
+    <div class="title-login">
+        <h1 style="font-weight: 600; margin-bottom: 4rem;">Bienvenidos a Padlock</h1>
+    </div>
+
+    <div class="login-form-container">
+        <div class="login-form">
+            <h3 style="font-weight: 600; color: #003764; margin-bottom: 2rem;">Iniciar sesión</h3>
+            <div class='panel-heading' ng-if='errorMessage'>{{errorMessage}}</div>
+            <div class='panel-heading' ng-if='successMessage'>{{successMessage}}</div>
+            <form name='loginForm' ng-submit='onLogin()' style="margin-bottom: 0px">
+                <label style="font-weight: 500;" for='username' localized>login.username</label>
+                <input type='text' class='form-control' id='username'
+                       ng-model='login.username' localized-placeholder="login.username.placeholder"
+                       required/>
+
+                <label for='password' localized>login.password</label>
+                <input type='password' class='form-control' id='password'
+                       ng-model='login.password' localized-placeholder='login.password.placeholder'
+                       required/>
+
+                <div style="display: flex; justify-content: center;">
+                    <button 
+                    type='submit' 
+                    style="opacity: 1; margin-top: 9px; padding: .7rem 1.5rem; background-color: #003764; color: white; border-radius: 5px; border: none; cursor: pointer"
+                    ng-disabled='loginForm.$invalid' 
+                    ng-style="{'background-color': loginForm.$invalid ? '#6c757d' : '#003764', 'opacity': loginForm.$invalid ? 0.65 : 1, 'cursor': loginForm.$invalid ? 'not-allowed' : 'pointer'}"
+                    localized
+                    onmouseover="this.style.backgroundColor=loginForm.$invalid ? '#6c757d' : '#015191'"
+                    onmouseout="this.style.backgroundColor=loginForm.$invalid ? '#6c757d' : '#003764'">login.submit</button>
+                </div>
+
+            </form>
+
+            <div style="float: left; min-height: 45px; display: flex; flex-direction: column">
+                <div ng-if="canRecover" style="margin: auto; width: 100%"><a class="action-link" ng-click="recoverPassword()" localized>login.password.recovery</a></div>
+                <div ng-if="rebranding.signupLink" style="margin: auto; width: 100%"><span localized>login.no.account</span> <a class="action-link" href="{{rebranding.signupLink}}" localized>login.signup</a></div>
+                <div ng-if="!rebranding.signupLink && canSignup" style="margin: auto; width: 100%"><span localized>login.no.account</span> <a class="action-link" ng-click="signup()" localized>login.signup</a></div>
+            </div>
+        </div>
+
+    </div>
+    <div class='content-wrapper width-1000' ng-if="isIE">
+        <div localized>ie.browser.notice.1</div>
+        <div ng-bind-html="ieBrowserNotice2"></div>
+    </div>
+    
+    <div class="login-footer" ng-if="rebranding">
+        <span>{{rebranding.appName}}</span> <span localized>app.description</span>. (c) {{rebranding.year}} <a href="{{rebranding.vendorLink}}">{{rebranding.vendorName}}</a>
+    </div>
+</div>
+
+
+<!-- <div class="login-logo" ng-if="rebranding"><img src="rest/public/logo"><span class="logo">{{rebranding.appName}}</span></div> -->
 
 <!-- Localization completed -->
-<div ng-if="!isIE">
+<!-- <div ng-if="!isIE">
     <div class='panel panel-default login' ng-class='{"panel-danger": errorMessage, "panel-success": successMessage}'>
         <div class='panel-heading' ng-if='errorMessage'>{{errorMessage}}</div>
         <div class='panel-heading' ng-if='successMessage'>{{successMessage}}</div>
         <div class='panel-body' style="padding: 30px; background: #f6f8fc">
             <form name='loginForm' ng-submit='onLogin()' style="margin-bottom: 0px">
                 <div class='form-group'>
-                    <label for='username' localized>login.username</label>
+                    <label style="font-weight: 500;" for='username' localized>login.username</label>
                     <input type='text' class='form-control' id='username'
                            ng-model='login.username' localized-placeholder="login.username.placeholder"
                            required/>
@@ -26,8 +84,15 @@
                     <div ng-if="!rebranding.signupLink && canSignup" style="margin: auto; width: 100%"><span localized>login.no.account</span> <a class="action-link" ng-click="signup()" localized>login.signup</a></div>
                 </div>
 
-                <button type='submit' class='btn btn-default right' style="opacity: 1; margin-top: 9px"
-                        ng-disabled='loginForm.$invalid' localized>login.submit</button>
+                <button 
+                    type='submit' 
+                    class='right' 
+                    style="opacity: 1; margin-top: 9px; padding: .7rem 1.5rem; background-color: #003764; color: white; border-radius: 5px; border: none; cursor: pointer"
+                    ng-disabled='loginForm.$invalid' 
+                    ng-style="{'background-color': loginForm.$invalid ? '#6c757d' : '#003764', 'opacity': loginForm.$invalid ? 0.65 : 1, 'cursor': loginForm.$invalid ? 'not-allowed' : 'pointer'}"
+                    localized
+                    onmouseover="this.style.backgroundColor=loginForm.$invalid ? '#6c757d' : '#015191'"
+                    onmouseout="this.style.backgroundColor=loginForm.$invalid ? '#6c757d' : '#003764'">login.submit</button>
             </form>
         </div>
     </div>
@@ -40,4 +105,4 @@
 
 <div class="login-footer" ng-if="rebranding">
     <span>{{rebranding.appName}}</span> <span localized>app.description</span>. (c) {{rebranding.year}} <a href="{{rebranding.vendorLink}}">{{rebranding.vendorName}}</a>
-</div>
+</div> -->

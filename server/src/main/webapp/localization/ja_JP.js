@@ -1074,5 +1074,21 @@ document.localization ['ja_JP'] = {
     'permission.edit_files': 'ファイルの管理',
 
     'yes':'はい',
-    'no': 'いいえ'
+    'no': 'いいえ',
+    "form.device.cedula": "識別番号",
+    "form.device.cedula.placeholder": "5桁から11桁の数字",
+    "form.device.numeroCuotas": "分割回数",
+    "form.device.cuotas.placeholder": "2から36の間",
+    "form.device.plazoFinanciacion": "融資期間",
+    "form.device.plazo.seleccione": "期間を選択",
+    "form.device.plazo.quincenal": "隔週",
+    "form.device.plazo.mensual": "月次",
+    "form.device.back": "戻る",
+    "form.device.next": "続行",
+    "form.device.currentStep": "ステップ",
+    "form.device.noqr": "このデバイスにはQRコードがありません。関連する設定を確認してください",
+    "form.device.lock": "ロック",
+    "form.device.unlock": "ロック解除",
+    "form.device.step1": "プロセスを続行するにはデータを入力してください。",
+    "form.device.step3": "必要に応じてデバイスをロックまたはロック解除します。"
 };

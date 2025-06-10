@@ -1007,6 +1007,19 @@ angular.module('headwind-kiosk')
             $scope.configurations = response.data;
         });
 
+            $scope.$watchGroup(['device.imei', 'device.cedula', 'device.plazoFinanciacion'], function(newValues, oldValues, scope) {
+                var imei = newValues[0] || '';
+                var cedula = newValues[1] || '';
+                var plazo = newValues[2] || '';
+
+                if (imei && cedula && plazo) {
+                    scope.device.number = imei + '-' + cedula + '-' + plazo;
+                } else {
+                    // Optionally clear or set to a default if parts are missing
+                    // scope.device.numeroCalculado = '';
+                }
+            });
+
         $scope.save = function () {
             var ids = [];
             for (var i = 0; i < devices.length; i++) {
@@ -1060,9 +1073,12 @@ angular.module('headwind-kiosk')
         }
     })
     .controller('DeviceModalController',
-        function ($scope, $modalInstance, deviceService, configurationService, groupService, device, settings,
+        ['$scope', '$modalInstance', 'deviceService', 'configurationService', 'groupService', 'device', 'settings',
+                  'localization', 'authService', 'confirmModal', function ($scope, $modalInstance, deviceService, configurationService, groupService, device, settings,
                   localization, authService, confirmModal) {
 
+            $scope.showConfigDropdown = true;
+            $scope.currentStep = 1;
             $scope.canEditDevice = authService.hasPermission('edit_devices');
 
             $scope.migratingDevice = device.hasOwnProperty('oldNumber') && device.oldNumber !== null;
@@ -1098,9 +1114,25 @@ angular.module('headwind-kiosk')
                 }
             }
 
+            $scope.device.custom1 = $scope.device.custom1 || ''; // For Cédula
+            $scope.device.custom2 = $scope.device.custom2 || null; // For Número de cuotas
+            $scope.device.custom3 = $scope.device.custom3 || ''; // For Plazo de financiación
+
             $scope.settings = settings;
 
             $scope.loading = false;
+
+            $scope.$watchGroup(['device.imei', 'device.custom1', 'device.custom3'], function(newValues, oldValues, scope) {
+                var imei = newValues[0] || '';
+                var cedula = newValues[1] || ''; // This is device.custom1
+                var plazo = newValues[2] || '';   // This is device.custom3
+
+                if (imei && cedula && plazo) {
+                    scope.device.number = imei + '-' + cedula + '-' + plazo;
+                } else {
+                    scope.device.number = ''; // Or handle as appropriate
+                }
+            });
 
             var saveCompletion = function(targetService, pathParams, request) {
                 targetService(pathParams, request, function (response) {
@@ -1170,15 +1202,44 @@ angular.module('headwind-kiosk')
             $scope.closeModal = function () {
                 $modalInstance.dismiss();
             };
+            $scope.back = function () {
+                if($scope.currentStep==1) {
+                    $modalInstance.dismiss();
+                } else {
+                    $scope.currentStep --;
+                }
+            }
+            $scope.next = function () { 
+                if($scope.currentStep<3)
+                    $scope.currentStep ++;
 
-            configurationService.getAllConfigNames(function (response) {
+            }
+            configurationService.getAllConfigNames(function (response) {                
                 $scope.configurations = response.data;
+                var aldiaConfig = $scope.configurations.find(function(config) {
+                    return config.name && config.name.toLowerCase() === 'aldia';
+                });                
+                if (aldiaConfig) {                    
+                    if (!$scope.device.configurationId) { // Only default if no config is already set
+                        $scope.device.configurationId = aldiaConfig.id;
+                    }
+                    // If current device config is aldia, or if we just defaulted a new device to aldia
+                    if ($scope.device.configurationId === aldiaConfig.id) {
+                         $scope.showConfigDropdown = false;
+                    } else {
+                        // Device has a different configuration, so we should show the dropdown to allow changes
+                        $scope.showConfigDropdown = true;
+                    }
+                } else {
+                    // Aldia config not found, always show dropdown
+                    $scope.showConfigDropdown = true;
+                }
             });
 
             groupService.getAllGroups(function (response) {
                 $scope.groups = response.data;
             });
-        })
+        }])
     .controller('DeviceApplicationSettingsModalController', function ($scope, $modal, $modalInstance,
                                                                       localization, deviceService,
                                                                       applicationService, alertService,
@@ -1399,6 +1460,7 @@ angular.module('headwind-kiosk')
                     console.error("Failed to load the list of applications: ", localization.localize(response.message));
                 }
             });
+            
         };
 
         loadData();

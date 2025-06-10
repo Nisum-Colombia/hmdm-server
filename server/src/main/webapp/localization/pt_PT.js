@@ -1073,5 +1073,21 @@ document.localization ['pt_PT'] = {
     'permission.edit_files': 'Gerir ficheiros',
 
     'yes': 'sim',
-    'no': 'não'
+    'no': 'não',
+    "form.device.cedula": "Número de Identificação",
+    "form.device.cedula.placeholder": "Entre 5 e 11 dígitos",
+    "form.device.numeroCuotas": "Número de Parcelas",
+    "form.device.cuotas.placeholder": "Entre 2 e 36",
+    "form.device.plazoFinanciacion": "Prazo de Financiamento",
+    "form.device.plazo.seleccione": "Selecione um prazo",
+    "form.device.plazo.quincenal": "Quinzenal",
+    "form.device.plazo.mensual": "Mensal",
+    "form.device.back": "Voltar",
+    "form.device.next": "Continuar",
+    "form.device.currentStep": "Passo",
+    "form.device.noqr": "Não existe um código QR para este dispositivo. Verifique a configuração associada",
+    "form.device.lock": "Bloquear",
+    "form.device.unlock": "Desbloquear",
+    "form.device.step1": "Complete os dados para continuar o processo.",
+    "form.device.step3": "Bloqueie ou desbloqueie o dispositivo, conforme necessário."
 };

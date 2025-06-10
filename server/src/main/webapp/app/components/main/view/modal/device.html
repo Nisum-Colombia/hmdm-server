@@ -3,7 +3,21 @@
     <div ng-show='errorMessage' class='error'><span>{{errorMessage}}</span></div>
 </div>
 <div class='modal-body'>
-    <form class='form-horizontal'>
+    <h3 style="text-align: center; margin-bottom: 20px; color: #003764; font-weight: 600;">Enrolar dispositivo</h3>
+
+    <div style="display: flex; justify-content: space-around; margin-bottom: 30px;">
+        <div ng-if="currentStep === 1"  style="width: 30px; height: 30px; border-radius: 50%; background-color: #003764; color: white; display: flex; align-items: center; justify-content: center; margin: 0 10px;">1</div>
+        <div ng-if="currentStep !== 1"  style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">1</div>
+        <div ng-if="currentStep === 2"  style="width: 30px; height: 30px; border-radius: 50%; background-color: #003764; color: white; display: flex; align-items: center; justify-content: center; margin: 0 10px;">2</div>
+        <div ng-if="currentStep !== 2"  style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">2</div>
+        <div ng-if="currentStep === 3"  style="width: 30px; height: 30px; border-radius: 50%; background-color: #003764; color: white; display: flex; align-items: center; justify-content: center; margin: 0 10px;">3</div>
+        <div ng-if="currentStep !== 3"  style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin: 0 10px;">3</div>
+    </div>
+
+    <p style="color: #003764; font-weight: 600;"><span localized>form.device.currentStep</span> {{currentStep}}</p>
+    <p localized>form.device.step1</p>
+    
+    <!-- <form class='form-horizontal'>
 
         <div class='form-group'>
             <label class='col-sm-4 control-label'><span localized>form.device.number</span><br>
@@ -98,5 +112,113 @@
                         localized>button.cancel</button>
             </div>
         </div>
-    </form>
+    </form> -->
+
+    <form class='form-horizontal'>
+    <div class="row" ng-if="currentStep === 1">
+        <!-- Columna Izquierda -->
+        <div class="col-sm-6">
+            <div class='form-group' ng-if="settings.customPropertyName1">
+                <label class='col-sm-4 control-label' localized>form.device.cedula</label>
+                <div class='col-sm-8'>
+                    <input type='text' class='form-control' ng-model='device.custom1' ng-pattern="/^\d{5,11}$/" ng-required="true" placeholder="{{'form.device.cedula.placeholder' | localize}}">
+                </div>
+            </div>
+            <div class='form-group'>
+                <label class='col-sm-4 control-label'><span localized>form.device.number</span><br>
+                    <span style="color: #aaa; font-size: 10px" localized>form.device.number.hint</span></label>
+                <div class='col-sm-8'>
+                    <input ng-model='device.number' type='text' class='form-control' ng-disabled="!canEditDevice || migratingDevice" title="{{migrationHint}}"
+                           focus-me readonly>
+                </div>
+            </div>
+
+            <div class='form-group' ng-if="canEditDevice && showConfigDropdown">
+                <label class='col-sm-4 control-label' localized>form.device.config</label>
+                <div class='col-sm-8'>
+                    <select class='form-control'
+                            ng-model='device.configurationId'
+                            ng-options="configuration.id as configuration.name for configuration in configurations">
+                    </select>
+                </div>
+            </div>
+
+            <div class='form-group' ng-if="canEditDevice && settings.customPropertyName3">
+                <label class='col-sm-4 control-label' localized>form.device.plazoFinanciacion</label>
+                <div class='col-sm-8'>
+                    <select class='form-control' ng-model='device.custom3' ng-required="true">
+                        <option value="" disabled selected localized>form.device.plazo.seleccione</option>
+                        <option value="15" localized>form.device.plazo.quincenal</option>
+                        <option value="30" localized>form.device.plazo.mensual</option>
+                    </select>
+                </div>
+            </div>            
+           
+        </div>
+
+        <!-- Columna Derecha -->
+        <div class="col-sm-6">
+            <div class='form-group' ng-if="canEditDevice">
+                <label class='col-sm-4 control-label' for="imei" localized>form.device.imei</label>
+                <div class='col-sm-8'>
+                    <input ng-model='device.imei' id="imei" maxlength="15" type='text' class='form-control'
+                           ui-mask="{{'999999999999999'}}" ui-options="{clearOnBlur: false, allowInvalidValue: true}"/>
+                </div>
+            </div>
+            <div class='form-group' ng-if="canEditDevice && settings.customPropertyName2">
+                <label class='col-sm-4 control-label' localized>form.device.numeroCuotas</label>
+                <div class='col-sm-8'>
+                    <input type='text' class='form-control' ng-model-options="{number: true}" ng-model='device.custom2' min="2" max="36" ng-required="true" placeholder="{{'form.device.cuotas.placeholder' | localize}}">
+                </div>
+            </div>
+            
+            <div class='form-group' ng-if="false">
+                <label class='col-sm-4 control-label' localized>form.device.desc</label>
+                <div class='col-sm-8'>
+                    <textarea ng-model='device.description' class='form-control no-resize' rows="5"></textarea>
+                </div>
+            </div>
+
+            <div class='form-group' ng-if="canEditDevice && false">
+                <label class='col-sm-4 control-label' localized>form.device.groups</label>
+                <div class='col-sm-8'>
+                    <div ng-dropdown-multiselect
+                         options='groupsList'
+                         translation-texts='tableFilteringTexts'
+                         selected-model='groupsSelection'
+                         class='left margin-right-half custom-multi-select'></div>
+                </div>
+            </div>
+
+            <div class='form-group' ng-if="canEditDevice">
+                <label class='col-sm-4 control-label' for="phone" localized>form.device.phone.number</label>
+                <div class='col-sm-8'>
+                    <input ng-model='device.phone' id="phone" type='text' class='form-control'
+                           ui-mask="{{settings.phoneNumberFormat}}" ui-options="{clearOnBlur: false, allowInvalidValue: true}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="currentStep === 2">
+        <div class="col-sm-12" ng-if="!device.qrCodeKey" localized> 
+            form.device.noqr
+        </div>
+        <div class="col-sm-12" ng-if="device.qrCodeKey">
+             <img ng-src="{{qrCodeUrl}}" width="480" height="480" localized-alt="form.qr.code.image.alt"/>         
+        </div>
+    </div>
+    <div class="row" ng-if="currentStep === 3">
+        <div class="col-sm-12" localized>form.device.step3</div>    
+        <div class="col-sm-12">
+            <button type='button' class='btn btn-outline-secondary' ng-click='lock()' localized>form.device.lock</button>
+            <button type='button' class='btn btn-outline-secondary' ng-click='unlock()' localized>form.device.unlock</button>     
+        </div>
+    </div>
+    <div class='modal-footer'>
+        <button type='button' class='btn btn-outline-primary' ng-click='back()' localized>form.device.back</button>
+        <button type='button' class='btn btn-outline-secondary' ng-click='next()' ng-if="currentStep &lt; 3" localized>form.device.next</button>
+        <button type='submit' class='btn btn-primary' ng-click='save()' ng-disabled="loading" localized>button.save</button>
+
+    </div>
+</form>
 </div>
