@@ -1082,5 +1082,13 @@ document.localization ['ar_AE'] = {
     'form.device.plazoFinanciacion': 'مدة التمويل',
     'form.device.plazo.seleccione': 'اختر مدة',
     'form.device.plazo.quincenal': 'نصف شهري',
-    'form.device.plazo.mensual': 'شهري'
+    'form.device.plazo.mensual': 'شهري',
+    "form.device.back": "عودة",
+    "form.device.next": "متابعة",
+    "form.device.currentStep": "الخطوة",
+    "form.device.noqr": "لا يوجد رمز QR لهذا الجهاز. تحقق من الإعداد المرتبط",
+    "form.device.lock": "قفل",
+    "form.device.unlock": "إلغاء القفل",
+    "form.device.step1": "أكمل البيانات للمتابعة.",
+    "form.device.step3": "قم بقفل أو إلغاء قفل الجهاز حسب الحاجة."
 };

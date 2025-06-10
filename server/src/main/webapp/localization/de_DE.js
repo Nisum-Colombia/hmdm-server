@@ -1082,5 +1082,13 @@ document.localization ['de_DE'] = {
     "form.device.plazoFinanciacion": "Finanzierungslaufzeit",
     "form.device.plazo.seleccione": "Laufzeit auswählen",
     "form.device.plazo.quincenal": "Zweiwöchentlich",
-    "form.device.plazo.mensual": "Monatlich"
+    "form.device.plazo.mensual": "Monatlich",
+    "form.device.back": "Zurück",
+    "form.device.next": "Weiter",
+    "form.device.currentStep": "Schritt",
+    "form.device.noqr": "Kein QR-Code für dieses Gerät vorhanden. Überprüfen Sie die zugehörige Konfiguration",
+    "form.device.lock": "Sperren",
+    "form.device.unlock": "Entsperren",
+    "form.device.step1": "Vervollständigen Sie die Daten, um fortzufahren.",
+    "form.device.step3": "Sperren oder entsperren Sie das Gerät nach Bedarf."
 };

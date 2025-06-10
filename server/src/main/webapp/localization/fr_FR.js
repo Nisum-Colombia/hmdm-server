@@ -1082,5 +1082,13 @@ document.localization ['fr_FR'] = {
     "form.device.plazoFinanciacion": "Durée du financement",
     "form.device.plazo.seleccione": "Sélectionnez une durée",
     "form.device.plazo.quincenal": "Bimensuel",
-    "form.device.plazo.mensual": "Mensuel"
+    "form.device.plazo.mensual": "Mensuel",
+    "form.device.back": "Retour",
+    "form.device.next": "Continuer",
+    "form.device.currentStep": "Étape",
+    "form.device.noqr": "Aucun code QR pour cet appareil. Vérifiez la configuration associée",
+    "form.device.lock": "Verrouiller",
+    "form.device.unlock": "Déverrouiller",
+    "form.device.step1": "Complétez les données pour continuer le processus.",
+    "form.device.step3": "Verrouillez ou déverrouillez l'appareil, selon le besoin."
 };

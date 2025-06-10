@@ -1096,5 +1096,13 @@ document.localization ['tr_TR'] = {
     'form.device.plazoFinanciacion': 'Finansman Vadesi',
     'form.device.plazo.seleccione': 'Bir vade seçin',
     'form.device.plazo.quincenal': '15 Günlük',
-    'form.device.plazo.mensual': 'Aylık'
+    'form.device.plazo.mensual': 'Aylık',
+	"form.device.back": "Geri",
+	"form.device.next": "Devam et",
+	"form.device.currentStep": "Adım",
+	"form.device.noqr": "Bu cihaz için bir QR kodu yok. İlişkili yapılandırmayı kontrol edin",
+	"form.device.lock": "Kilitle",
+	"form.device.unlock": "Kilidi aç",
+	"form.device.step1": "Devam etmek için verileri tamamlayın.",
+	"form.device.step3": "Gerektiğinde cihazı kilitleyin veya kilidini açın."
 };

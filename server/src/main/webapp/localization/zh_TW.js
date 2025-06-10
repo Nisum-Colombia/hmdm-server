@@ -1082,5 +1082,13 @@ document.localization ['zh_TW'] = {
     'form.device.plazoFinanciacion': '融資期限',
     'form.device.plazo.seleccione': '選擇期限',
     'form.device.plazo.quincenal': '每半月',
-    'form.device.plazo.mensual': '每月'
+    'form.device.plazo.mensual': '每月',
+    "form.device.back": "返回",
+    "form.device.next": "繼續",
+    "form.device.currentStep": "步驟",
+    "form.device.noqr": "此裝置沒有 QR 碼。請檢查相關設定",
+    "form.device.lock": "鎖定",
+    "form.device.unlock": "解鎖",
+    "form.device.step1": "請填寫資料以繼續流程。",
+    "form.device.step3": "根據需要鎖定或解鎖裝置。"
 };		
