@@ -1090,5 +1090,11 @@ document.localization ['es_ES'] = {
     'form.device.lock': 'Bloquear',
     'form.device.unlock': 'Desbloquear',
     'form.device.step1': 'Completa los datos para continuar el proceso.',
-    'form.device.step3': 'Bloquea o desbloquea el dispositivo, según sea necesario.'
+    'form.device.step3': 'Bloquea o desbloquea el dispositivo, según sea necesario.',
+
+    'summary.avg.devices.by.company': 'Dispositivos enrolados por empresa',
+    'summary.enrolled.companies.count': 'Cantidad de tiendas',
+    'summary.operation.log.title': 'Registro de operaciones'
+    
+    
 };
