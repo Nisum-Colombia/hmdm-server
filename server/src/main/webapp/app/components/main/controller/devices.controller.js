@@ -1214,11 +1214,27 @@ angular.module('headwind-kiosk')
                     $scope.currentStep ++;
 
             }
-            configurationService.getAllConfigNames(function (response) {                
+            $scope.lock = function () {
+                //TODO: Implement lock logic
+            }   
+            $scope.unlock = function () {
+                //TODO: Implement unlock logic
+            }         
+            configurationService.getAllConfigurations(function (response) {                
                 $scope.configurations = response.data;
                 var aldiaConfig = $scope.configurations.find(function(config) {
                     return config.name && config.name.toLowerCase() === 'aldia';
-                });                
+                }); 
+                var deviceConfig = $scope.configurations.find(function(config) {
+                    return config.id === $scope.device.configurationId;
+                });
+                if(deviceConfig) {
+                    $scope.device.qrCodeKey = deviceConfig.qrCodeKey;
+                    $scope.qrCodeUrl = "rest/public/qr/" + $scope.device.qrCodeKey + "?size=480";
+                    if ($scope.device.id !== null) {
+                        $scope.qrCodeUrl += "&deviceId=" + $scope.device.id;
+                    }
+                }             
                 if (aldiaConfig) {                    
                     if (!$scope.device.configurationId) { // Only default if no config is already set
                         $scope.device.configurationId = aldiaConfig.id;
@@ -1239,6 +1255,7 @@ angular.module('headwind-kiosk')
             groupService.getAllGroups(function (response) {
                 $scope.groups = response.data;
             });
+            
         }])
     .controller('DeviceApplicationSettingsModalController', function ($scope, $modal, $modalInstance,
                                                                       localization, deviceService,
