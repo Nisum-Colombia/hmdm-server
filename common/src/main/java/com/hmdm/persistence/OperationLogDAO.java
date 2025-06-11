@@ -1,8 +1,11 @@
 package com.hmdm.persistence;
 
+import com.google.inject.Singleton;
 import com.hmdm.rest.json.OperationLogEntry;
 import java.util.List;
 
+
+@Singleton
 public interface OperationLogDAO {
 
     /**

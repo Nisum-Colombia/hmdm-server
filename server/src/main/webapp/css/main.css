@@ -2415,3 +2415,45 @@ h4.collapse-control {
     overflow-y: scroll;
     max-height: 400px;
 }
+
+.card {
+  border-radius: 0.5rem;
+}
+
+.card-title {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-body {
+  padding: 1rem 1.25rem;
+}
+
+.fs-5 {
+  font-size: 1.25rem;
+}
+
+button.btn-outline-primary,
+button.btn-outline-secondary {
+  border-radius: 0.375rem;
+}
+
+input[type="date"] {
+  min-height: 38px;
+}
+
+.bi-search {
+  font-size: 2rem;
+}
+
+.card-footer button {
+  padding: 0.25rem 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .row .col-md-3,
+  .row .col-md-4,
+  .row .col-md-6 {
+    margin-bottom: 1rem;
+  }
+}
