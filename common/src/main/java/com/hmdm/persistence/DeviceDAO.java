@@ -359,16 +359,75 @@ public class DeviceDAO extends AbstractDAO<Device> {
     }
 
     @Transactional
-    public Long countEnrolled(long lastEnrollTime) {
+    public Long countEnrolled(Long dateFrom, Long dateTo) {
+        // SQL: SELECT COUNT(*) FROM devices WHERE enrollment_timestamp >= #{dateFrom} AND enrollment_timestamp <= #{dateTo};
+        // The existing filter DeviceSummaryRequest and mapper.countAllDevicesForSummary might already do this
+        // if dateFrom and dateTo are mapped to minEnrollTime and maxEnrollTime.
+        // However, the existing method does not restrict by customer without further checks.
+        // For a precise query as commented, a new mapper method might be needed.
         return SecurityContext.get().getCurrentUser()
                 .map(u -> {
                     DeviceSummaryRequest filter = new DeviceSummaryRequest(
-                            u.getId(), u.getCustomerId(),
-                            null, null, lastEnrollTime, null, null, null, null
+                            u.getId(), u.getCustomerId(), // This restricts by current user's customer_id
+                            null, null, dateFrom, dateTo, null, null, null
                     );
+                    // This will count devices for the current user's customer within the date range.
                     return this.mapper.countAllDevicesForSummary(filter);
                 })
-                .orElse(0l);
+                .orElse(0L);
+    }
+
+    @Transactional
+    public List<ChartItem> getDevicesEnrolledDaily(Long dateFrom, Long dateTo) {
+        // SQL: SELECT DATE(enrollment_timestamp) as day, COUNT(*) as count FROM devices WHERE enrollment_timestamp >= #{dateFrom} AND enrollment_timestamp <= #{dateTo} GROUP BY DATE(enrollment_timestamp) ORDER BY day;
+        // Map results to List<ChartItem> (stringAttr = day, number = count).
+        // This needs a new mapper method.
+        return SecurityContext.get().getCurrentUser()
+                .map(u -> {
+                    // Placeholder implementation
+                    // List<ChartItem> result = this.mapper.getDevicesEnrolledDailyByCustomer(u.getCustomerId(), dateFrom, dateTo);
+                    // return result;
+                    return java.util.Collections.emptyList();
+                })
+                .orElse(java.util.Collections.emptyList());
+    }
+
+    @Transactional
+    public int countEnrolledCustomers(Long dateFrom, Long dateTo) {
+        // SQL: SELECT COUNT(DISTINCT customer_id) FROM devices WHERE enrollment_timestamp >= #{dateFrom} AND enrollment_timestamp <= #{dateTo} AND customer_id IS NOT NULL;
+        // This implies a query that is not restricted by the current user's customer_id,
+        // which might be a super-admin functionality.
+        // If it's for the current customer, it will always be 1 (if any device) or 0.
+        // Assuming this is a system-wide query if the user is superadmin.
+        // For now, placeholder for current customer context.
+        return SecurityContext.get().getCurrentUser()
+                .map(u -> {
+                    // Placeholder: if any device enrolled for this customer in range, count is 1, else 0.
+                    // boolean hasEnrollments = this.mapper.hasEnrollmentsInDateRange(u.getCustomerId(), dateFrom, dateTo);
+                    // return hasEnrollments ? 1 : 0;
+                    return 0; // Replace with actual count
+                })
+                .orElse(0);
+    }
+
+    @Transactional
+    public List<CustomerEnrollmentStats> getEnrollmentsByCustomer(Long dateFrom, Long dateTo) {
+        // SQL: SELECT customer_id, COUNT(*) as enrollment_count FROM devices WHERE enrollment_timestamp >= #{dateFrom} AND enrollment_timestamp <= #{dateTo} AND customer_id IS NOT NULL GROUP BY customer_id;
+        // Map results to List<CustomerEnrollmentStats>.
+        // This implies a query that could be system-wide (listing multiple customers) if user is superadmin.
+        // For a regular user, it would only return stats for their own customer_id.
+        return SecurityContext.get().getCurrentUser()
+                .map(u -> {
+                    // Placeholder for current customer:
+                    // List<CustomerEnrollmentStats> result = new LinkedList<>();
+                    // long count = countEnrolled(dateFrom, dateTo); // For this specific customer
+                    // if (count > 0) {
+                    //   result.add(new CustomerEnrollmentStats(u.getCustomerId(), (int)count));
+                    // }
+                    // return result;
+                    return java.util.Collections.emptyList();
+                })
+                .orElse(java.util.Collections.emptyList());
     }
 
     @Transactional

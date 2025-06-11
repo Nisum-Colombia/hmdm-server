@@ -10,6 +10,10 @@ public class SummaryResponse {
     private long devicesEnrolledLastMonth;
     private List<ChartItem> devicesEnrolledMonthly;
 
+    private List<ChartItem> devicesEnrolledDaily;
+    private int enrolledCustomersCount;
+    private double averageDevicesPerCustomer;
+
     private List<String> topConfigs;
 
     private List<Integer> statusOfflineByConfig;
@@ -67,6 +71,30 @@ public class SummaryResponse {
 
     public void setDevicesEnrolledMonthly(List<ChartItem> devicesEnrolledMonthly) {
         this.devicesEnrolledMonthly = devicesEnrolledMonthly;
+    }
+
+    public List<ChartItem> getDevicesEnrolledDaily() {
+        return devicesEnrolledDaily;
+    }
+
+    public void setDevicesEnrolledDaily(List<ChartItem> devicesEnrolledDaily) {
+        this.devicesEnrolledDaily = devicesEnrolledDaily;
+    }
+
+    public int getEnrolledCustomersCount() {
+        return enrolledCustomersCount;
+    }
+
+    public void setEnrolledCustomersCount(int enrolledCustomersCount) {
+        this.enrolledCustomersCount = enrolledCustomersCount;
+    }
+
+    public double getAverageDevicesPerCustomer() {
+        return averageDevicesPerCustomer;
+    }
+
+    public void setAverageDevicesPerCustomer(double averageDevicesPerCustomer) {
+        this.averageDevicesPerCustomer = averageDevicesPerCustomer;
     }
 
     public List<String> getTopConfigs() {

@@ -1,40 +1,119 @@
 <!-- Localization completed -->
 <div class="width-1000" ng-controller="SummaryTabController">
 
-    <div class='form-group' ng-show='errorMessage'>
-        <div class='error'><span>{{errorMessage}}</span></div>
+    <div class='form-group' ng-show='errorMessage || summaryErrorMessage || logsErrorMessage'>
+        <div class='error' ng-show="errorMessage"><span>{{errorMessage}}</span></div>
+        <div class='error' ng-show="summaryErrorMessage"><span>{{summaryErrorMessage}}</span></div>
+        <div class='error' ng-show="logsErrorMessage"><span>{{logsErrorMessage}}</span></div>
     </div>
 
-    <div class='form-group center' style="margin-top: 20px">
-        <div class="col-sm-4">
-            <h3 localized>summary.devices.enrollment</h3>
+    <div ng-show="loadingSummary && !summaryErrorMessage" localized>text.loading</div>
 
-            <canvas id="enrollment" class="chart chart-doughnut" style="margin-top: 60px"
-                    chart-data="enrollmentData" chart-labels="enrollmentLabels" chart-colors="enrollmentColors">
-            </canvas>
+    <div class="row">
+        <!-- Column 1 -->
+        <div class="col-md-6">
+            <!-- Row 1.1: Search Controls -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 localized>filter.options</h3> <!-- Assuming a general title for filters -->
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label localized>summary.date.from</label>
+                        <input type="date" class="form-control" ng-model="dateFrom" />
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label localized>summary.date.to</label>
+                        <input type="date" class="form-control" ng-model="dateTo" />
+                    </div>
+                </div>
+            </div>
 
-            <div class="row" style="margin-top: 25px">
-            <div class="col-sm-6 align-right">
-                <span localized>summary.devices.enrolled.total</span>:<br>
-                <span localized>summary.devices.enrolled.monthly</span>:
+            <!-- Row 1.2: Company Statistics -->
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-sm-12">
+                    <h3 localized>summary.company.statistics.title</h3>
+                    <p><span localized>summary.avg.devices.by.company</span>: <strong>{{averageDevicesPerCustomer | number:1}}</strong></p>
+                    <p><span localized>summary.enrolled.companies.count</span>: <strong>{{enrolledCustomersCount}}</strong></p>
+                </div>
             </div>
-            <div class="col-sm-6" style="text-align: left">
-                <strong>{{enrollmentData[0] + enrollmentData[1]}}</strong><br>
-                <strong style="color: {{enrollmentColors[1]}}">{{enrollmentData[1]}}</strong>
-            </div>
+            <div class="col-sm-12 delimiter" style="margin: 20px 0 20px 0"></div>
+
+            <!-- Row 1.3: Operation Log -->
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-sm-12">
+                    <h3 localized>summary.operation.log.title</h3>
+                    <div ng-show="loadingLogs" localized>text.loading</div>
+                    <div ng-show="!loadingLogs && operationLogs.length === 0" class="align-center">
+                        <p localized>text.no.data</p>
+                    </div>
+                    <div class="table-responsive" ng-show="!loadingLogs && operationLogs.length > 0">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th localized>summary.log.timestamp</th>
+                                <th localized>summary.log.username</th>
+                                <th localized>summary.log.action</th>
+                                <th localized>summary.log.details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="log in operationLogs">
+                                <td>{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>{{log.username}}</td>
+                                <td>{{log.action}}</td>
+                                <td>{{log.details}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center" ng-if="!loadingLogs && operationLogTotalCount > 0">
+                        <button class="btn btn-default" ng-disabled="operationLogCurrentPage <= 1" ng-click="pageChanged(operationLogCurrentPage - 1)" localized>button.previous</button>
+                        <span style="margin: 0 10px;">Page {{operationLogCurrentPage}} of {{ (operationLogTotalCount + operationLogItemsPerPage - 1) / operationLogItemsPerPage | number:0 }}</span>
+                        <button class="btn btn-default" ng-disabled="operationLogCurrentPage * operationLogItemsPerPage >= operationLogTotalCount" ng-click="pageChanged(operationLogCurrentPage + 1)" localized>button.next</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-sm-8">
-            <h3 localized>summary.devices.enrolled.lastyear</h3>
 
-            <canvas id="monthlyEnroll" class="chart chart-bar"
-                    chart-data="monthlyEnrollData" chart-labels="monthlyEnrollLabels" chart-colors="monthlyEnrollColors">
-            </canvas>
+        <!-- Column 2 -->
+        <div class="col-md-6">
+            <!-- Row 2.1: Devices Enrolled Per Day Chart -->
+            <div class="row">
+                <div class="col-sm-12 center">
+                    <h3 localized>summary.devices.enrolled.daily</h3>
+                     <div ng-show="loadingSummary && !summaryErrorMessage" localized>text.loading</div>
+                    <canvas id="dailyEnroll" class="chart chart-bar"
+                            chart-data="dailyEnrollData" chart-labels="dailyEnrollLabels" chart-colors="dailyEnrollColors">
+                    </canvas>
+                </div>
+            </div>
+            <div class="col-sm-12 delimiter" style="margin: 20px 0 20px 0"></div>
+
+            <!-- Row 2.2: Number of Active Devices -->
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-sm-12 center">
+                    <h3 localized>summary.devices.active</h3>
+                    <h2 style="margin-top: 10px;"><strong>{{statusData[2]}}</strong></h2>
+                </div>
+            </div>
+            <div class="col-sm-12 delimiter" style="margin: 20px 0 20px 0"></div>
+
+            <!-- Row 2.3: Number of Inactive Devices -->
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-sm-12 center">
+                    <h3 localized>summary.devices.inactive</h3>
+                     <h2 style="margin-top: 10px;"><strong>{{statusData[0] + statusData[1]}}</strong></h2>
+                </div>
+            </div>
         </div>
-
-        <div class="col-sm-12 delimiter" style="margin: 20px 0 20px 0"></div>
     </div>
 
+    <div class="col-sm-12 delimiter" style="margin: 30px 0 30px 0; border-top: 1px solid #eee;"></div>
+
+    <!-- Existing Charts Moved Down -->
     <div class='form-group center' style="margin-top: 20px">
         <div class="col-sm-4">
             <h3 localized>summary.devices.status</h3>
@@ -58,7 +137,7 @@
 
         </div>
         <div class="col-sm-8">
-            <h3 localized>&nbsp;</h3>
+            <h3 localized>&nbsp;</h3> <!-- Consider a title like "Status by Configuration" -->
 
             <canvas id="statusByConfig" class="chart chart-bar"
                     chart-series="statusByConfigSeries"
@@ -73,28 +152,28 @@
 
 
     <div class='form-group center' style="margin-top: 20px">
-            <div class="col-sm-4">
-                <h3 localized>summary.devices.installation.status</h3>
+        <div class="col-sm-4">
+            <h3 localized>summary.devices.installation.status</h3>
 
-                <canvas id="install" class="chart chart-doughnut" style="margin-top: 60px"
-                        chart-data="installData" chart-labels="installLabels" chart-colors="installColors">
-                </canvas>
+            <canvas id="install" class="chart chart-doughnut" style="margin-top: 60px"
+                    chart-data="installData" chart-labels="installLabels" chart-colors="installColors">
+            </canvas>
 
-                <div class="row" style="margin-top: 25px">
-                    <div class="col-sm-6 align-right">
-                        <span localized>summary.devices.installation.failed</span>:<br>
-                        <span localized>summary.devices.version.mismatch</span>:<br>
-                        <span localized>summary.devices.installation.completed</span>:
-                    </div>
-                    <div class="col-sm-6" style="text-align: left">
-                        <strong style="color: {{installColors[0]}}">{{installData[0]}}</strong><br>
-                        <strong style="color: {{installColors[1]}}">{{installData[1]}}</strong><br>
-                        <strong style="color: {{installColors[2]}}">{{installData[2]}}</strong>
-                    </div>
+            <div class="row" style="margin-top: 25px">
+                <div class="col-sm-6 align-right">
+                    <span localized>summary.devices.installation.failed</span>:<br>
+                    <span localized>summary.devices.version.mismatch</span>:<br>
+                    <span localized>summary.devices.installation.completed</span>:
+                </div>
+                <div class="col-sm-6" style="text-align: left">
+                    <strong style="color: {{installColors[0]}}">{{installData[0]}}</strong><br>
+                    <strong style="color: {{installColors[1]}}">{{installData[1]}}</strong><br>
+                    <strong style="color: {{installColors[2]}}">{{installData[2]}}</strong>
                 </div>
             </div>
+        </div>
         <div class="col-sm-8">
-            <h3 localized>&nbsp;</h3>
+            <h3 localized>&nbsp;</h3> <!-- Consider a title like "Installation Status by Configuration" -->
 
             <canvas id="installByConfig" class="chart chart-bar"
                     chart-series="installByConfigSeries"
@@ -103,7 +182,5 @@
                     chart-colors="installByConfigColors">
             </canvas>
         </div>
-
     </div>
-
-    </div>
+</div>

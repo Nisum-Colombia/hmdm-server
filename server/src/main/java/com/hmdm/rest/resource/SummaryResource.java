@@ -22,8 +22,10 @@
 package com.hmdm.rest.resource;
 
 import com.hmdm.persistence.DeviceDAO;
+import com.hmdm.persistence.domain.CustomerEnrollmentStats;
 import com.hmdm.persistence.domain.DeviceSummaryRequest;
 import com.hmdm.persistence.domain.SummaryConfigItem;
+import com.hmdm.rest.json.ChartItem;
 import com.hmdm.rest.json.Response;
 import com.hmdm.rest.json.SummaryResponse;
 import com.hmdm.service.DeviceApplicationsStatus;
@@ -35,11 +37,15 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Api(tags = {"Summary"}, authorizations = {@Authorization("Bearer Token")})
 @Singleton
@@ -70,7 +76,14 @@ public class SummaryResource {
     @GET
     @Path("/devices")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDeviceStats() {
+    public Response getDeviceStats(@QueryParam("dateFrom") Long dateFromTs, @QueryParam("dateTo") Long dateToTs) {
+        if (dateToTs == null) {
+            dateToTs = System.currentTimeMillis();
+        }
+        if (dateFromTs == null) {
+            dateFromTs = dateToTs - TimeUnit.DAYS.toMillis(30);
+        }
+
         SummaryResponse summaryResponse = new SummaryResponse();
 
         summaryResponse.setInstallSummary(deviceDAO.getInstallSummary());
@@ -86,9 +99,25 @@ public class SummaryResource {
         }
 
         summaryResponse.setDevicesTotal(deviceDAO.getTotalDevicesCount());
-        summaryResponse.setDevicesEnrolled(deviceDAO.countEnrolled(0l));
-        summaryResponse.setDevicesEnrolledLastMonth(deviceDAO.countEnrolled(
-                System.currentTimeMillis() - 30 * 86400 * 1000l));
+        summaryResponse.setDevicesEnrolled(deviceDAO.countEnrolled(dateFromTs, dateToTs));
+        summaryResponse.setDevicesEnrolledDaily(deviceDAO.getDevicesEnrolledDaily(dateFromTs, dateToTs));
+
+        int enrolledCustomers = deviceDAO.countEnrolledCustomers(dateFromTs, dateToTs);
+        summaryResponse.setEnrolledCustomersCount(enrolledCustomers);
+
+        List<CustomerEnrollmentStats> customerEnrollments = deviceDAO.getEnrollmentsByCustomer(dateFromTs, dateToTs);
+        double totalEnrolledDevicesForAverage = 0;
+        if (customerEnrollments != null) {
+            for (CustomerEnrollmentStats stats : customerEnrollments) {
+                totalEnrolledDevicesForAverage += stats.getEnrollmentCount();
+            }
+        }
+
+        if (enrolledCustomers > 0) {
+            summaryResponse.setAverageDevicesPerCustomer(totalEnrolledDevicesForAverage / enrolledCustomers);
+        } else {
+            summaryResponse.setAverageDevicesPerCustomer(0.0);
+        }
 
         // Top 5 configs by devices
         DeviceSummaryRequest condition = new DeviceSummaryRequest();
@@ -153,7 +182,7 @@ public class SummaryResource {
             summaryResponse.getAppSuccessByConfig().add(item.getCounter());
         }
 
-        summaryResponse.setDevicesEnrolledMonthly(deviceDAO.getDevicesEnrolledMonthly());
+        // summaryResponse.setDevicesEnrolledMonthly(deviceDAO.getDevicesEnrolledMonthly()); // Replaced by daily
 
         return Response.OK(summaryResponse);
     }

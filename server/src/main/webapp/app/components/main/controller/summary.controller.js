@@ -1,28 +1,33 @@
 // Localization completed
 angular.module('headwind-kiosk')
-    .controller('SummaryTabController', function ($scope, localization, summaryService) {
-        $scope.stat = undefined;
+    .controller('SummaryTabController', function ($scope, localization, summaryService, operationLogService) {
+        $scope.stat = undefined; // This might be legacy, consider removing if not used by new logic
         $scope.errorMessage = undefined;
+        $scope.summaryErrorMessage = undefined;
+        $scope.logsErrorMessage = undefined;
 
-        $scope.enrollmentLabels = [
-            localization.localize('summary.devices.enrolled.earlier'),
-            localization.localize('summary.devices.enrolled.monthly')
+        // Date pickers
+        $scope.dateTo = new Date();
+        $scope.dateFrom = new Date();
+        $scope.dateFrom.setDate($scope.dateTo.getDate() - 30);
+
+        // Summary data
+        $scope.enrollmentData = []; // This might need to be re-evaluated based on new summary requirements
+        $scope.enrollmentLabels = [ // These labels might be outdated with daily data
+            localization.localize('summary.devices.enrolled.earlier'), // Consider if this concept is still relevant
+            localization.localize('summary.devices.enrolled.period') // Changed from 'monthly'
         ];
-        $scope.enrollmentColors = [
-            '#DCDCDC',
-            '#97BBCD'
-        ];
+        $scope.enrollmentColors = ['#DCDCDC', '#97BBCD'];
+
 
         $scope.statusLabels = [
             localization.localize('summary.devices.offline'),
             localization.localize('summary.devices.idle'),
             localization.localize('summary.devices.active')
         ];
-        $scope.statusColors = [
-            '#F7464A',
-            '#FDB45C',
-            '#46BFBD'
-        ];
+        $scope.statusColors = ['#F7464A', '#FDB45C', '#46BFBD'];
+        $scope.statusData = [0, 0, 0];
+
 
         $scope.installLabels = [
             localization.localize('summary.devices.installation.failed'),
@@ -30,20 +35,22 @@ angular.module('headwind-kiosk')
             localization.localize('summary.devices.installation.completed')
         ];
         $scope.installColors = $scope.statusColors;
+        $scope.installData = [0, 0, 0];
 
-        $scope.monthlyEnrollColors = [];
-        for (var i = 0; i < 12; i++) {
-            $scope.monthlyEnrollColors.push('#97BBCD');
-        }
+        // Daily enrollment chart
+        $scope.dailyEnrollLabels = [];
+        $scope.dailyEnrollData = [];
+        $scope.dailyEnrollColors = ['#97BBCD']; // Default color, can be an array if chart supports multiple series for daily
 
+        // Config-based charts
         $scope.statusByConfigSeries = [
             localization.localize('summary.devices.offline'),
             localization.localize('summary.devices.idle'),
             localization.localize('summary.devices.active')
         ];
-        $scope.statusByConfigColors = [
-            '#F7464A', '#FDB45C', '#46BFBD'
-        ];
+        $scope.statusByConfigColors = ['#F7464A', '#FDB45C', '#46BFBD'];
+        $scope.statusByConfigLabels = [];
+        $scope.statusByConfigData = [];
 
         $scope.installByConfigSeries = [
             localization.localize('summary.devices.installation.failed'),
@@ -51,57 +58,138 @@ angular.module('headwind-kiosk')
             localization.localize('summary.devices.installation.completed')
         ];
         $scope.installByConfigColors = $scope.statusByConfigColors;
+        $scope.installByConfigLabels = [];
+        $scope.installByConfigData = [];
 
-        summaryService.getDeviceStat(function (response) {
-            var devicesEnrolledEarlier = response.data.devicesEnrolled - response.data.devicesEnrolledLastMonth;
-            if (devicesEnrolledEarlier < 0) {
-                devicesEnrolledEarlier = 0;
+        // New summary fields
+        $scope.averageDevicesPerCustomer = 0;
+        $scope.enrolledCustomersCount = 0;
+        $scope.devicesEnrolledInPeriod = 0; // To store count of devices enrolled in selected period
+
+        // Operation Logs
+        $scope.operationLogs = [];
+        $scope.operationLogTotalCount = 0;
+        $scope.operationLogCurrentPage = 1;
+        $scope.operationLogItemsPerPage = 10; // Or a suitable default
+
+        // Loading flags
+        $scope.loadingSummary = false;
+        $scope.loadingLogs = false;
+
+        var fetchSummaryData = function () {
+            $scope.loadingSummary = true;
+            $scope.summaryErrorMessage = undefined;
+
+            summaryService.getDeviceStat({
+                dateFrom: $scope.dateFrom.getTime(),
+                dateTo: $scope.dateTo.getTime()
+            }, function (response) {
+                if (response.data) {
+                    // The 'devicesEnrolledEarlier' concept might need to be rethought with date pickers
+                    // For now, devicesEnrolled in response.data refers to the count within the period
+                    $scope.devicesEnrolledInPeriod = response.data.devicesEnrolled || 0;
+
+                    // Example: if you still want a chart for total vs period:
+                    // var devicesEnrolledEarlier = response.data.devicesTotal - $scope.devicesEnrolledInPeriod;
+                    // if (devicesEnrolledEarlier < 0) devicesEnrolledEarlier = 0;
+                    // $scope.enrollmentData = [devicesEnrolledEarlier, $scope.devicesEnrolledInPeriod];
+                    // For now, let's assume enrollmentData/Labels are not the primary focus or will be removed for daily chart
+
+                    $scope.statusData = [0, 0, 0];
+                    if (response.data.statusSummary) {
+                        response.data.statusSummary.forEach(function (item) {
+                            if (item.stringAttr === 'red') $scope.statusData[0] = item.number;
+                            else if (item.stringAttr === 'yellow') $scope.statusData[1] = item.number;
+                            else if (item.stringAttr === 'green') $scope.statusData[2] = item.number;
+                        });
+                    }
+
+                    $scope.installData = [0, 0, 0];
+                    if (response.data.installSummary) {
+                        response.data.installSummary.forEach(function (item) {
+                            if (item.stringAttr === 'FAILURE') $scope.installData[0] = item.number;
+                            else if (item.stringAttr === 'VERSION_MISMATCH') $scope.installData[1] = item.number;
+                            else if (item.stringAttr === 'SUCCESS') $scope.installData[2] = item.number;
+                        });
+                    }
+
+                    $scope.statusByConfigLabels = response.data.topConfigs || [];
+                    $scope.statusByConfigData = [];
+                    $scope.statusByConfigData.push(response.data.statusOfflineByConfig || []);
+                    $scope.statusByConfigData.push(response.data.statusIdleByConfig || []);
+                    $scope.statusByConfigData.push(response.data.statusOnlineByConfig || []);
+
+                    $scope.installByConfigLabels = $scope.statusByConfigLabels;
+                    $scope.installByConfigData = [];
+                    $scope.installByConfigData.push(response.data.appFailureByConfig || []);
+                    $scope.installByConfigData.push(response.data.appMismatchByConfig || []);
+                    $scope.installByConfigData.push(response.data.appSuccessByConfig || []);
+
+                    // Daily enrollment data
+                    $scope.dailyEnrollLabels = [];
+                    $scope.dailyEnrollData = [];
+                    if (response.data.devicesEnrolledDaily) {
+                        response.data.devicesEnrolledDaily.forEach(function (item) {
+                            $scope.dailyEnrollLabels.push(item.stringAttr); // Assuming stringAttr is date
+                            $scope.dailyEnrollData.push(item.number);
+                        });
+                    }
+
+                    // New summary fields
+                    $scope.averageDevicesPerCustomer = response.data.averageDevicesPerCustomer || 0;
+                    $scope.enrolledCustomersCount = response.data.enrolledCustomersCount || 0;
+
+                } else {
+                    $scope.summaryErrorMessage = localization.localize('error.invalid.response');
+                }
+                $scope.loadingSummary = false;
+            }, function (error) {
+                $scope.summaryErrorMessage = localization.localize('error.internal.server') + (error.data.message ? ': ' + error.data.message : '');
+                $scope.loadingSummary = false;
+            });
+        };
+
+        var fetchOperationLogs = function (pageNumber) {
+            $scope.loadingLogs = true;
+            $scope.logsErrorMessage = undefined;
+            var offset = (pageNumber - 1) * $scope.operationLogItemsPerPage;
+
+            operationLogService.getLogs({
+                dateFrom: $scope.dateFrom.getTime(),
+                dateTo: $scope.dateTo.getTime(),
+                offset: offset,
+                limit: $scope.operationLogItemsPerPage
+                // Add username and action filters here if UI elements are added for them
+            }, function (response) {
+                $scope.operationLogs = response.logs || [];
+                $scope.operationLogTotalCount = response.totalCount || 0;
+                $scope.operationLogCurrentPage = pageNumber;
+                $scope.loadingLogs = false;
+            }, function (error) {
+                $scope.logsErrorMessage = localization.localize('error.internal.server') + (error.data.message ? ': ' + error.data.message : '');
+                $scope.loadingLogs = false;
+            });
+        };
+
+        $scope.fetchData = function () {
+            fetchSummaryData();
+            fetchOperationLogs($scope.operationLogCurrentPage); // Fetch current page or page 1
+        };
+
+        $scope.pageChanged = function (newPage) {
+            fetchOperationLogs(newPage);
+        };
+
+        // Watch for date changes to refetch data
+        // Using simple watch, could be optimized with debounce or specific change handlers for buttons
+        $scope.$watchGroup(['dateFrom', 'dateTo'], function(newValues, oldValues) {
+            if (newValues[0] !== oldValues[0] || newValues[1] !== oldValues[1]) {
+                // Reset to first page for logs when date range changes
+                $scope.operationLogCurrentPage = 1;
+                $scope.fetchData();
             }
-            $scope.enrollmentData = [devicesEnrolledEarlier, response.data.devicesEnrolledLastMonth];
-            $scope.statusData = [0, 0, 0];
-            $scope.installData = [0, 0, 0];
-
-            response.data.statusSummary.forEach(function (item, index) {
-                if (item.stringAttr === 'red') {
-                    $scope.statusData[0] = item.number;
-                } else if (item.stringAttr === 'yellow') {
-                    $scope.statusData[1] = item.number;
-                } else if (item.stringAttr === 'green') {
-                    $scope.statusData[2] = item.number;
-                }
-            });
-
-            response.data.installSummary.forEach(function (item, index) {
-                if (item.stringAttr === 'FAILURE') {
-                    $scope.installData[0] = item.number;
-                } else if (item.stringAttr === 'VERSION_MISMATCH') {
-                    $scope.installData[1] = item.number;
-                } else if (item.stringAttr === 'SUCCESS') {
-                    $scope.installData[2] = item.number;
-                }
-            });
-
-            $scope.statusByConfigLabels = response.data.topConfigs;
-            $scope.statusByConfigData = [];
-            $scope.statusByConfigData.push(response.data.statusOfflineByConfig);
-            $scope.statusByConfigData.push(response.data.statusIdleByConfig);
-            $scope.statusByConfigData.push(response.data.statusOnlineByConfig);
-
-            $scope.installByConfigLabels = $scope.statusByConfigLabels;
-            $scope.installByConfigData = [];
-            $scope.installByConfigData.push(response.data.appFailureByConfig);
-            $scope.installByConfigData.push(response.data.appMismatchByConfig);
-            $scope.installByConfigData.push(response.data.appSuccessByConfig);
-
-            $scope.monthlyEnrollLabels = [];
-            $scope.monthlyEnrollData = [];
-            response.data.devicesEnrolledMonthly.forEach(function (item, index) {
-                $scope.monthlyEnrollLabels.push(item.stringAttr);
-                $scope.monthlyEnrollData.push(item.number);
-            });
-
-        }, function () {
-            $scope.errorMessage = localization.localize('error.internal.server');
         });
 
+        // Initial load
+        $scope.fetchData();
     });
