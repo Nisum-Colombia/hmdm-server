@@ -1090,5 +1090,9 @@ document.localization ['ja_JP'] = {
     "form.device.lock": "ロック",
     "form.device.unlock": "ロック解除",
     "form.device.step1": "プロセスを続行するにはデータを入力してください。",
-    "form.device.step3": "必要に応じてデバイスをロックまたはロック解除します。"
+    "form.device.step3": "必要に応じてデバイスをロックまたはロック解除します。",
+
+    'summary.avg.devices.by.company': '会社ごとの登録デバイス数',
+    'summary.enrolled.companies.count': '店舗数',
+    'summary.operation.log.title': '操作ログ'
 };

@@ -1104,5 +1104,9 @@ document.localization ['tr_TR'] = {
 	"form.device.lock": "Kilitle",
 	"form.device.unlock": "Kilidi aç",
 	"form.device.step1": "Devam etmek için verileri tamamlayın.",
-	"form.device.step3": "Gerektiğinde cihazı kilitleyin veya kilidini açın."
+	"form.device.step3": "Gerektiğinde cihazı kilitleyin veya kilidini açın.",
+
+	'summary.avg.devices.by.company': 'Şirkete göre kaydedilen cihazlar',
+	'summary.enrolled.companies.count': 'Mağaza sayısı',
+	'summary.operation.log.title': 'İşlem günlüğü'
 };

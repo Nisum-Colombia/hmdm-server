@@ -767,8 +767,8 @@ document.localization ['es_ES'] = {
     'search.placeholder.point': 'Buscar sitio',
     'search.placeholder.message': 'Buscar mensaje',
     'search.placeholder': 'Buscar ...',
-    'search.placeholder.from': 'De ...',
-    'search.placeholder.to': 'Para ...',
+    'search.placeholder.from': 'Desde ...',
+    'search.placeholder.to': 'Hasta ...',
     'search.placeholder.user': 'Ingrese el nombre de usuario',
 
     'table.heading.customer.name': 'Nombre',

@@ -1089,5 +1089,9 @@ document.localization ['en_US'] = {
     "form.device.lock": "Lock",
     "form.device.unlock": "Unlock",
     "form.device.step1": "Complete the data to continue the process.",
-    "form.device.step3": "Lock or unlock the device as needed."
+    "form.device.step3": "Lock or unlock the device as needed.",
+
+    'summary.avg.devices.by.company': 'Devices enrolled by company',
+    'summary.enrolled.companies.count': 'Number of stores',
+    'summary.operation.log.title': 'Operation log'
 };

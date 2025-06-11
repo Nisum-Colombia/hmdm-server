@@ -1090,5 +1090,9 @@ document.localization ['de_DE'] = {
     "form.device.lock": "Sperren",
     "form.device.unlock": "Entsperren",
     "form.device.step1": "Vervollständigen Sie die Daten, um fortzufahren.",
-    "form.device.step3": "Sperren oder entsperren Sie das Gerät nach Bedarf."
+    "form.device.step3": "Sperren oder entsperren Sie das Gerät nach Bedarf.",
+
+    'summary.avg.devices.by.company': 'Geräte pro Unternehmen registriert',
+    'summary.enrolled.companies.count': 'Anzahl der Filialen',
+    'summary.operation.log.title': 'Betriebsprotokoll'
 };

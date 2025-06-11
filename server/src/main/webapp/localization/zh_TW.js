@@ -1090,5 +1090,9 @@ document.localization ['zh_TW'] = {
     "form.device.lock": "鎖定",
     "form.device.unlock": "解鎖",
     "form.device.step1": "請填寫資料以繼續流程。",
-    "form.device.step3": "根據需要鎖定或解鎖裝置。"
+    "form.device.step3": "根據需要鎖定或解鎖裝置。",
+
+    'summary.avg.devices.by.company': '依公司註冊的設備數',
+    'summary.enrolled.companies.count': '商店數量',
+    'summary.operation.log.title': '操作日誌'
 };		

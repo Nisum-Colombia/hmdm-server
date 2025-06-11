@@ -13,19 +13,16 @@
         <!-- Column 1 -->
         <div class="col-md-6">
             <!-- Row 1.1: Search Controls -->
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3 localized>filter.options</h3> <!-- Assuming a general title for filters -->
-                </div>
+            <div class="row">                
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label localized>summary.date.from</label>
+                        <label localized>search.placeholder.from</label>
                         <input type="date" class="form-control" ng-model="dateFrom" />
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label localized>summary.date.to</label>
+                        <label localized>search.placeholder.to</label>
                         <input type="date" class="form-control" ng-model="dateTo" />
                     </div>
                 </div>
@@ -34,7 +31,6 @@
             <!-- Row 1.2: Company Statistics -->
             <div class="row" style="margin-top: 15px;">
                 <div class="col-sm-12">
-                    <h3 localized>summary.company.statistics.title</h3>
                     <p><span localized>summary.avg.devices.by.company</span>: <strong>{{averageDevicesPerCustomer | number:1}}</strong></p>
                     <p><span localized>summary.enrolled.companies.count</span>: <strong>{{enrolledCustomersCount}}</strong></p>
                 </div>
@@ -104,7 +100,7 @@
             <!-- Row 2.3: Number of Inactive Devices -->
             <div class="row" style="margin-top: 15px;">
                 <div class="col-sm-12 center">
-                    <h3 localized>summary.devices.inactive</h3>
+                    <h3 localized>summary.devices.idle</h3>
                      <h2 style="margin-top: 10px;"><strong>{{statusData[0] + statusData[1]}}</strong></h2>
                 </div>
             </div>

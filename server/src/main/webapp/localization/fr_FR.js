@@ -1090,5 +1090,9 @@ document.localization ['fr_FR'] = {
     "form.device.lock": "Verrouiller",
     "form.device.unlock": "Déverrouiller",
     "form.device.step1": "Complétez les données pour continuer le processus.",
-    "form.device.step3": "Verrouillez ou déverrouillez l'appareil, selon le besoin."
+    "form.device.step3": "Verrouillez ou déverrouillez l'appareil, selon le besoin.",
+
+    'summary.avg.devices.by.company': 'Appareils inscrits par entreprise',
+    'summary.enrolled.companies.count': 'Nombre de magasins',
+    'summary.operation.log.title': 'Journal des opérations'
 };

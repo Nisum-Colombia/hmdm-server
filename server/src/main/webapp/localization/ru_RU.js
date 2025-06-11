@@ -1090,5 +1090,9 @@ document.localization[ 'ru_RU' ] = {
     "form.device.lock": "Заблокировать",
     "form.device.unlock": "Разблокировать",
     "form.device.step1": "Заполните данные для продолжения процесса.",
-    "form.device.step3": "Заблокируйте или разблокируйте устройство по мере необходимости."
+    "form.device.step3": "Заблокируйте или разблокируйте устройство по мере необходимости.",
+
+    'summary.avg.devices.by.company': 'Устройств, зарегистрированных по компаниям',
+    'summary.enrolled.companies.count': 'Количество магазинов',
+    'summary.operation.log.title': 'Журнал операций'
 };

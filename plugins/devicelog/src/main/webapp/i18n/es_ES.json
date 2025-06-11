@@ -36,7 +36,7 @@
   "plugin.devicelog.settings.error.empty.rule.severity": "Especifique la severidad",
   "plugin.devicelog.settings.error.invalid.app": "Aplicacion invalida",
   "plugin.devicelog.settings.error.invalid.group": "Grupo invalido",
-  "plugin.devicelog.settings.error.invalid.configuration": "Configuracion invalida",
+  "plugin.devicelog.settings.error.invalid.configuration": "Configuracion inválida",
   "plugin.devicelog.settings.error.invalid.device": "Dispositivo invalido",
   "plugin.devicelog.settings.question.delete.rule": "Eliminar regla \"${rulename}\"?",
   "plugin.devicelog.settings.button.devices": "Dispositivos",

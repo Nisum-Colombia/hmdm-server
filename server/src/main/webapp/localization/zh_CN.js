@@ -1091,4 +1091,8 @@ document.localization ['zh_CN'] = {
     "form.device.unlock": "解锁",
     "form.device.step1": "填写数据以继续流程。",
     "form.device.step3": "根据需要锁定或解锁设备。",
+
+    'summary.avg.devices.by.company': '按公司注册的设备数',
+    'summary.enrolled.companies.count': '门店数量',
+    'summary.operation.log.title': '操作日志'
 };		

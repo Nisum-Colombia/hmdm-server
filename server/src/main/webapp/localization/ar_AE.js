@@ -1090,5 +1090,9 @@ document.localization ['ar_AE'] = {
     "form.device.lock": "قفل",
     "form.device.unlock": "إلغاء القفل",
     "form.device.step1": "أكمل البيانات للمتابعة.",
-    "form.device.step3": "قم بقفل أو إلغاء قفل الجهاز حسب الحاجة."
+    "form.device.step3": "قم بقفل أو إلغاء قفل الجهاز حسب الحاجة.",
+
+    'summary.avg.devices.by.company': 'الأجهزة المسجلة حسب الشركة',
+    'summary.enrolled.companies.count': 'عدد المتاجر',
+    'summary.operation.log.title': 'سجل العمليات'
 };
