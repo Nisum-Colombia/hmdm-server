@@ -387,9 +387,9 @@ public class DeviceDAO extends AbstractDAO<Device> {
                     // Placeholder implementation
                     // List<ChartItem> result = this.mapper.getDevicesEnrolledDailyByCustomer(u.getCustomerId(), dateFrom, dateTo);
                     // return result;
-                    return java.util.Collections.emptyList();
+                    return java.util.Collections.<ChartItem>emptyList();
                 })
-                .orElse(java.util.Collections.emptyList());
+                .orElse(java.util.Collections.<ChartItem>emptyList());
     }
 
     @Transactional
@@ -425,9 +425,9 @@ public class DeviceDAO extends AbstractDAO<Device> {
                     //   result.add(new CustomerEnrollmentStats(u.getCustomerId(), (int)count));
                     // }
                     // return result;
-                    return java.util.Collections.emptyList();
+                    return java.util.Collections.<CustomerEnrollmentStats>emptyList();
                 })
-                .orElse(java.util.Collections.emptyList());
+                .orElse(java.util.Collections.<CustomerEnrollmentStats>emptyList());
     }
 
     @Transactional
