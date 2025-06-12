@@ -1094,7 +1094,8 @@ document.localization ['es_ES'] = {
 
     'summary.avg.devices.by.company': 'Dispositivos enrolados por empresa',
     'summary.enrolled.companies.count': 'Cantidad de tiendas',
-    'summary.operation.log.title': 'Registro de operaciones'
-    
+    'summary.operation.log.title': 'Registro de operaciones',
+    'summary.devices.enrolled.daily': 'Dispositivos enrolados por día',
+    'summary.no.data': 'No hay datos para mostrar'    
     
 };

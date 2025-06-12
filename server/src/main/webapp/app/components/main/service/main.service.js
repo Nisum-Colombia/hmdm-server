@@ -195,13 +195,4 @@ angular.module('headwind-kiosk')
             }
         }
     })
-    .factory('operationLogService', function ($resource) {
-        return $resource('', {}, {
-            getLogs: {
-                url: 'rest/private/operationlog', // Matches OperationLogResource path
-                method: 'GET',
-                // isArray: false is default, response should be PaginatedOperationLogResponse
-            }
-        });
-    })
 ;

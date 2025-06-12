@@ -1,6 +1,6 @@
 // Localization completed
 angular.module('headwind-kiosk')
-    .controller('SummaryTabController', function ($scope, localization, summaryService, operationLogService) {
+    .controller('SummaryTabController', function ($scope, localization, summaryService) {
         $scope.stat = undefined; // This might be legacy, consider removing if not used by new logic
         $scope.errorMessage = undefined;
         $scope.summaryErrorMessage = undefined;
@@ -65,12 +65,6 @@ angular.module('headwind-kiosk')
         $scope.averageDevicesPerCustomer = 0;
         $scope.enrolledCustomersCount = 0;
         $scope.devicesEnrolledInPeriod = 0; // To store count of devices enrolled in selected period
-
-        // Operation Logs
-        $scope.operationLogs = [];
-        $scope.operationLogTotalCount = 0;
-        $scope.operationLogCurrentPage = 1;
-        $scope.operationLogItemsPerPage = 10; // Or a suitable default
 
         // Loading flags
         $scope.loadingSummary = false;
@@ -148,44 +142,20 @@ angular.module('headwind-kiosk')
                 $scope.loadingSummary = false;
             });
         };
-
-        var fetchOperationLogs = function (pageNumber) {
-            $scope.loadingLogs = true;
-            $scope.logsErrorMessage = undefined;
-            var offset = (pageNumber - 1) * $scope.operationLogItemsPerPage;
-
-            operationLogService.getLogs({
-                dateFrom: $scope.dateFrom.getTime(),
-                dateTo: $scope.dateTo.getTime(),
-                offset: offset,
-                limit: $scope.operationLogItemsPerPage
-                // Add username and action filters here if UI elements are added for them
-            }, function (response) {
-                $scope.operationLogs = response.logs || [];
-                $scope.operationLogTotalCount = response.totalCount || 0;
-                $scope.operationLogCurrentPage = pageNumber;
-                $scope.loadingLogs = false;
-            }, function (error) {
-                $scope.logsErrorMessage = localization.localize('error.internal.server') + (error.data.message ? ': ' + error.data.message : '');
-                $scope.loadingLogs = false;
-            });
-        };
+       
 
         $scope.fetchData = function () {
             fetchSummaryData();
-            fetchOperationLogs($scope.operationLogCurrentPage); // Fetch current page or page 1
         };
 
         $scope.pageChanged = function (newPage) {
-            fetchOperationLogs(newPage);
         };
 
         // Watch for date changes to refetch data
         // Using simple watch, could be optimized with debounce or specific change handlers for buttons
         $scope.$watchGroup(['dateFrom', 'dateTo'], function(newValues, oldValues) {
             if (newValues[0] !== oldValues[0] || newValues[1] !== oldValues[1]) {
-                // Reset to first page for logs when date range changes
-                $scope.operationLogCurrentPage = 1;
+                // Reset to first page for logs when date range changes                
                 $scope.fetchData();
             }
         });

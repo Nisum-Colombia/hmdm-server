@@ -41,35 +41,9 @@
             <div class="row" style="margin-top: 15px;">
                 <div class="col-sm-12">
                     <h3 localized>summary.operation.log.title</h3>
-                    <div ng-show="loadingLogs" localized>text.loading</div>
-                    <div ng-show="!loadingLogs && operationLogs.length === 0" class="align-center">
-                        <p localized>text.no.data</p>
-                    </div>
-                    <div class="table-responsive" ng-show="!loadingLogs && operationLogs.length > 0">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th localized>summary.log.timestamp</th>
-                                <th localized>summary.log.username</th>
-                                <th localized>summary.log.action</th>
-                                <th localized>summary.log.details</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="log in operationLogs">
-                                <td>{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                                <td>{{log.username}}</td>
-                                <td>{{log.action}}</td>
-                                <td>{{log.details}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-center" ng-if="!loadingLogs && operationLogTotalCount > 0">
-                        <button class="btn btn-default" ng-disabled="operationLogCurrentPage <= 1" ng-click="pageChanged(operationLogCurrentPage - 1)" localized>button.previous</button>
-                        <span style="margin: 0 10px;">Page {{operationLogCurrentPage}} of {{ (operationLogTotalCount + operationLogItemsPerPage - 1) / operationLogItemsPerPage | number:0 }}</span>
-                        <button class="btn btn-default" ng-disabled="operationLogCurrentPage * operationLogItemsPerPage >= operationLogTotalCount" ng-click="pageChanged(operationLogCurrentPage + 1)" localized>button.next</button>
-                    </div>
+                    
+                        <p localized>summary.no.data</p>
+                    
                 </div>
             </div>
         </div>
